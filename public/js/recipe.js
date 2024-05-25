@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
   if (location.pathname === "/") {
     try {
-      const response = await fetch("/mainRecipes");
+      const response = await fetch("/api/recipes/main");
       const data = await response.json();
       const recipeCards = document.querySelectorAll("#recipes .recipe-card");
       data.forEach((item, index) => {
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.addEventListener("DOMContentLoaded", async () => {
   if (location.pathname === "/cyberRecipe.html") {
     try {
-      const response = await fetch("/recipes");
+      const response = await fetch("/api/recipes");
       const data = await response.json();
       const recipes = document.getElementById("recipes");
       data.forEach((item, index) => {
@@ -112,7 +112,7 @@ if (location.pathname === "/writeRecipe.html") {
         );
 
         try {
-          const response = await fetch("/recipes", {
+          const response = await fetch("/api/recipes", {
             method: "POST",
             body: formData,
           });

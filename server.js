@@ -76,17 +76,20 @@ app.get("/api/keys", (req, res) => {
 // 레시피 데이터 경로
 const RECIPES_DATA = path.join(__dirname, "recipes.json");
 
-// 레시피 조회 API
-app.get("/mainRecipes", (req, res) => {
+// 레시피 조회 API (메인 페이지, 제한된 수)
+app.get("/api/recipes/main", (req, res) => {
   const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
   res.json(recipes.slice(0, 9));
 });
-app.get("/recipes", (req, res) => {
+
+// 레시피 조회 API (전체 레시피)
+app.get("/api/recipes", (req, res) => {
   const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
   res.json(recipes);
 });
+
 // 레시피 추가 API
-app.post("/recipes", upload.single("image"), (req, res) => {
+app.post("/api/recipes", upload.single("image"), (req, res) => {
   const { food, subTitle, recipe, ingredient } = req.body;
   const image = req.file ? "images/" + req.file.filename : null;
 

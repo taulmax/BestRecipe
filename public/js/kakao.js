@@ -1,7 +1,7 @@
 // .env 파일에서 kakao api key 숨겨져 가져오기
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("/kakao");
+    const response = await fetch("/api/keys?type=kakao");
     const data = await response.json();
     const API_KEY = data.apiKey;
     window.Kakao.init(API_KEY);

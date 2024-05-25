@@ -2,7 +2,7 @@
 let WEATHER_API_KEY;
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("/weather");
+    const response = await fetch("/api/keys?type=weather");
     const data = await response.json();
     const API_KEY = data.apiKey;
     WEATHER_API_KEY = API_KEY;

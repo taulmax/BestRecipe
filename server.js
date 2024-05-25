@@ -51,25 +51,26 @@ app.use((req, res, next) => {
 });
 
 // *************** GET API KEY *************** //
-// 날씨 API KEY 넘겨주기
-app.get("/weather", (req, res) => {
-  res.json({
-    apiKey: process.env.WEATHER_API_KEY,
-  });
-});
+// API 키 넘겨주기
+app.get("/api/keys", (req, res) => {
+  const { type } = req.query;
+  let apiKey;
 
-// KAKAO API KEY 넘겨주기
-app.get("/kakao", (req, res) => {
-  res.json({
-    apiKey: process.env.KAKAO_API_KEY,
-  });
-});
+  switch (type) {
+    case "weather":
+      apiKey = process.env.WEATHER_API_KEY;
+      break;
+    case "kakao":
+      apiKey = process.env.KAKAO_API_KEY;
+      break;
+    case "youtube":
+      apiKey = process.env.YOUTUBE_API_KEY;
+      break;
+    default:
+      return res.status(400).json({ error: "API Key Type 설정 오류" });
+  }
 
-// YOUTUBE API KEY 넘겨주기
-app.get("/youtube", (req, res) => {
-  res.json({
-    apiKey: process.env.YOUTUBE_API_KEY,
-  });
+  res.json({ apiKey });
 });
 
 // 레시피 데이터 경로

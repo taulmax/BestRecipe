@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사이바-백종원</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/kakao.js"></script>
+    <script src="js/recipe.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main_header">
+        <a href="/" class="logo">
+            <img src="/images/100_logo.png" alt="logo">
+            <span>
+                사이-바 백종원
+            </span>
+        </a>
+        <nav>
+            <a href="cyberRecipe.html">사이-바 레시피</a>
+            <a href="cyberRecipe.html">유튜-바 레시피</a>
+            <a id="scrapAnchor" onclick="isLogin('/cyberRecipe.html')">스크랩</a>
+        </nav>
+        <div class="login">
+            <img onclick="kakaoLogin();" src="/images/kakao_login_large.png" alt="kakao_login" />
+        </div>
+        <div class="logout_wrapper">
+            <span class="welcome">
+            </span>
+            <span class="logout" onclick="logout();">
+                로그아웃
+            </span>
+        </div>
+    </header>
+
+    <!-- 사이-바 레시피 -->
+    <div class="main_content">
+        <header class="main_content_header" style="margin-top:28px;">
+            <h1>사이-바 레시피</h1>
+            <div onclick="isLogin('/writeRecipe.html')" class="more">레시피 작성하기</div>
+        </header>
+        <div id="recipes" class="main_content_box cyber_main_content_box"></div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer_content">
+            <div class="footer_logo">
+                <div class="logo_wrapper">
+                    <img src="/images/100_logo.png" alt="logo">
+                    <h2>사이-바 백종원</h2>
+                </div>
+                <h3>2024 Webprogramming Teamproject Team 7</h3>
+            </div>
+            <div class="footer_info">
+                <p>&copy; 2024 Team 7. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 로그인 안되어있으면 뜨는 다이얼로그 -->
+    <dialog id="isLogin_dialog">
+        <button class="close_button" onclick="document.getElementById('isLogin_dialog').close()">×</button>
+        <img class="isLogin_dialog_logo" src="/images/100_logo.png" alt="logo">
+        <h1>로그인이 필요한 서비스입니다</h1>
+        <h2>소셜 로그인을 통해 빠르게 저희 서비스를 이용해보세요!</h2>
+        <img class="isLogin_dialog_login_button" onclick="kakaoLogin();" src="/images/kakao_login_large_wide.png"
+            alt="kakao_login" />
+    </dialog>
+</body>
+
+</html>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

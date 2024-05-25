@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kakao_login</title>
+</head>
+
+<body>
+    <a href="javascript:kakaoLogin();"><img src="https://www.kakaosign.com/resources/img/kakao_experience_login_btn.png"
+            style="height:60px;width:auto;"></a>
+
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+        // 05c6fd18fcd4f7e8988b89102f984d43
+        window.Kakao.init("05c6fd18fcd4f7e8988b89102f984d43");
+
+        function kakaoLogin() {
+            window.Kakao.Auth.login({
+                scope: 'profile_nickname, account_email',
+                success: function (authObj) {
+                    console.log(authObj);
+                    window.Kakao.API.request({
+                        url: '/v2/user/me',
+                        success: res => {
+                            console.log(res)
+                            const kakao_account = res.kakao_account;
+                            console.log(kakao_account);
+
+                            // 로그인 한 아이디 출력
+                            const userId = res.id;
+                            console.log('Logged in user ID:', userId);
+                            alert('Logged in user ID: ' + userId);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,584 @@
+.main_header {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 60px;
+    border-bottom: 1px solid #15a775;
+    position: fixed;
+    background-color: #ffffff;
+    z-index: 9999;
+}
+
+.main_header .logo {
+    font-family: "SBAggroB";
+    font-size: 32px;
+    width: 300px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.main_header .logo img {
+    margin-top: -12px;
+    width: 60px;
+    height: 60px;
+}
+
+.main_header .logo span {
+    font-family: "SBAggroB";
+}
+
+.main_header nav {
+    display: flex;
+    font-size: 20px;
+}
+
+.main_header nav a {
+    padding: 0px 32px;
+    cursor: pointer;
+}
+
+.main_header .login {
+    width: 300px;
+    font-size: 14px;
+    text-align: right;
+    color: #808080;
+}
+
+.main_header .login img {
+    width: 90px;
+    height: 45px;
+    cursor: pointer;
+}
+
+.main_header .logout_wrapper {
+    display: none;
+    width: 300px;
+    font-size: 14px;
+    text-align: right;
+    color: #808080;
+}
+
+.main_header .logout_wrapper .welcome {
+    margin-right: 14px;
+    color: #4d4d4d;
+}
+
+.main_header .logout_wrapper .logout {
+    cursor: pointer;
+}
+
+main {
+    padding-top: 80px;
+}
+
+.main_content {
+    width: 100%;
+    padding: 80px 90px;
+}
+
+.main_content .main_content_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.main_content .main_content_header h1 {
+    font-family: "WavvePADO-Regular";
+    font-size: 40px;
+}
+
+.main_content .main_content_header .more {
+    border: solid 1px #d4d4d4;
+    border-radius: 30px;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+}
+
+.main_content .main_content_header .more:hover {
+    color: #0bab6d;
+    border-color: #0bab6d;
+}
+
+/* 로그인 다이얼로그 */
+#isLogin_dialog {
+    position: relative;
+    width: 600px;
+    padding: 20px 20px 40px 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+    margin: auto;
+}
+
+#isLogin_dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#isLogin_dialog .close_button {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #808080;
+    cursor: pointer;
+}
+
+#isLogin_dialog .isLogin_dialog_logo {
+    height: 200px;
+}
+
+#isLogin_dialog h1 {
+    font-family: "SBAggroB";
+    font-size: 36px;
+    padding-top: 24px;
+    margin-bottom: 36px;
+    font-weight: 500;
+}
+
+#isLogin_dialog h2 {
+    font-size: 18px;
+    color: #808080;
+    margin-bottom: 36px;
+}
+
+#isLogin_dialog .isLogin_dialog_login_button {
+    height: 64px;
+    cursor: pointer;
+}
+
+
+#location,
+#weather,
+#temp_wind {
+    display: flex;
+    justify-content: center;
+}
+
+#location {
+    font-size: 36px;
+    margin-top: 28px;
+}
+
+#weather {
+    font-size: 36px;
+    margin-top: 28px;
+}
+
+#temp_wind {
+    font-size: 24px;
+    margin-top: 14px;
+    color: #808080;
+}
+
+.recommend_button_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.recommend_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 380px;
+    height: 80px;
+    padding: 0 30px;
+    color: #fff;
+    border-radius: 40px;
+    background-color: #0bab6d;
+    font-size: 30px;
+    cursor: pointer;
+    margin-top: 28px;
+}
+
+.recommend_button:hover {
+    background-color: #20a16f;
+}
+
+.recommend_button:disabled {
+    background-color: rgb(244, 84, 124);
+    cursor: wait;
+}
+
+#recommended_menu_wrapper {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#recommended_menu_wrapper.show {
+    display: flex;
+    animation: fadeIn 2s ease;
+}
+
+.recommended_menu_img {
+    width: 360px;
+    height: 360px;
+    border-radius: 25px;
+    margin-top: 28px;
+    object-fit: cover;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+.recommended_menu_img.blink {
+    animation: blink 0.5s ease infinite;
+}
+
+.recommended_menu {
+    font-size: 32px;
+    margin-top: 28px;
+}
+
+.recommended_menu.blink {
+    animation: textBlink 0.5s ease infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes textBlink {
+    0% {
+        opacity: 1;
+        color: red;
+    }
+
+    25% {
+        opacity: 0;
+        color: yellow;
+    }
+
+    50% {
+        opacity: 1;
+        color: blue;
+    }
+
+    75% {
+        opacity: 0;
+        color: green;
+    }
+
+    100% {
+        opacity: 1;
+        color: red;
+    }
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+        box-shadow: 0 0 10px red;
+    }
+
+    25% {
+        opacity: 0.5;
+        box-shadow: 0 0 20px yellow;
+    }
+
+    50% {
+        opacity: 1;
+        box-shadow: 0 0 30px blue;
+    }
+
+    75% {
+        opacity: 0.5;
+        box-shadow: 0 0 20px green;
+    }
+
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 10px red;
+    }
+}
+
+
+/* 사이-바 레시피 */
+.slider_wrapper {
+    position: relative;
+}
+
+.slider {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 28px;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.3s ease;
+}
+
+.slider-track .recipe-card {
+    flex: 0 0 33.3333%;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.slider-track .recipe-card:nth-child(3n+1) {
+    padding-right: 24px;
+}
+
+.slider-track .recipe-card:nth-child(3n+2) {
+    padding: 0px 12px;
+}
+
+.slider-track .recipe-card:nth-child(3n) {
+    padding-left: 24px;
+}
+
+.recipe-card .food_image_wrapper {
+    width: 100%;
+    height: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.slider-track .recipe-card img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: all 0.2s ease-out;
+}
+
+.recipe-card img:hover {
+    transform: scale(1.1);
+}
+
+.recipe-card .content {
+    background: #fff;
+}
+
+.recipe-card .content h3 {
+    font-size: 26px;
+    margin: 16px 0px;
+}
+
+.recipe-card .content p {
+    font-size: 16px;
+    color: #666;
+}
+
+.slider-controls {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.slider-button {
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border: 1px solid #d4d4d4;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    font-size: 28px;
+    font-weight: lighter;
+}
+
+#prev_slide_button {
+    top: 178px;
+    left: -28px;
+}
+
+#next_slide_button {
+    top: 178px;
+    right: -28px;
+}
+
+/* 유튜-바 레시피 */
+#youtube_recipes .recipe-card {
+    cursor: default;
+}
+
+#youtube_recipes .recipe-card .content h3 {
+    font-size: 16px;
+    margin: 8px 0px;
+}
+
+#prev_youtube_slide_button {
+    top: 88px;
+    left: -28px;
+}
+
+#next_youtube_slide_button {
+    top: 88px;
+    right: -28px;
+}
+
+/* Footer */
+.footer {
+    background-color: #f2f2f2;
+    padding: 40px 60px;
+    text-align: center;
+    border-top: 1px solid #dcdcdc;
+}
+
+.footer_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 40px;
+}
+
+.footer .logo_wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.footer .logo_wrapper img {
+    width: 100px;
+    height: 100px;
+    margin-top: -63px;
+}
+
+.footer_logo h2 {
+    font-family: "SBAggroB";
+    font-size: 48px;
+    margin-bottom: 36px;
+    font-weight: 500;
+}
+
+.footer_logo h3 {
+    font-family: "SBAggroB";
+    color: #212121;
+}
+
+.footer_info {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #808080;
+}
+
+/* 사이바 레시피 페이지 */
+.cyber_main_content_box {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    justify-content: space-between;
+}
+
+.cyber_main_content_box .recipe-card {
+    margin-bottom: 84px;
+    cursor: pointer;
+}
+
+.cyber_main_content_box .recipe-card img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: all 0.2s ease-out;
+}
+
+/* 사이바 레시피 등록 페이지 */
+#write_cyber {
+    padding: 80px 360px;
+}
+
+#write_cyber form {
+    margin-top: 14px;
+}
+
+#write_cyber .form-group {
+    margin-bottom: 24px;
+}
+
+#write_cyber label {
+    font-size: 24px;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+#write_cyber input[type="text"] {
+    height: 48px;
+    font-size: 16px;
+}
+
+#write_cyber input[type="text"],
+#write_cyber textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#write_cyber input[type="text"].focused,
+#write_cyber textarea.focused {
+    border-color: #15a775;
+}
+
+#write_cyber textarea {
+    height: 200px;
+}
+
+#write_cyber .file-input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+#write_cyber .file-input-wrapper input {
+    flex-grow: 1;
+}
+
+#write_cyber .file-input-wrapper button {
+    margin-left: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+#write_cyber .radio-group {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+}
+
+#write_cyber .radio-group label {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#write_cyber .submit-btn {
+    display: block;
+    width: 100%;
+    height: 56px;
+    padding: 10px;
+    background-color: #15a775;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#write_cyber .submit-btn:hover {
+    background-color: #1f8d67;
+}

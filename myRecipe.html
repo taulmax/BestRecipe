@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BestRecipe</title>
+  <style>
+    #recipeInstructions {
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 100px;
+      width: 400px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>레시피</h1>
+  <hr />
+  <!-- 로그인 폼 -->
+  <form id="loginForm">
+    <label for="userId">사용자 아이디:</label>
+    <input type="text" id="userId" name="userId" required /><br /><br />
+    <button type="submit">로그인</button>
+  </form>
+
+  <div id="loggedInSection" style="display:none;">
+    <p>환영합니다, <span id="displayUserId"></span>님!</p>
+    <button id="logoutButton">로그아웃</button>
+  </div>
+
+  <hr />
+  <form id="addRecipeForm" style="display:none;">
+    <h2>요리 이름</h2>
+    <label for="recipeName">글 제목:</label>
+    <input
+      type="text"
+      id="recipeName"
+      name="recipeName"
+      required
+    /><br /><br />
+    <label for="recipeIngredients">재료</label><br />
+    <textarea
+      id="recipeIngredients"
+      name="recipeIngredients"
+      rows="4"
+      cols="50"
+      required
+    ></textarea
+    ><br /><br />
+    <h2>조리법</h2>
+    <!-- 이미지 업로드 요소 -->
+    <input type="file" id="imageInput" accept="image/*" required />
+    <button type="button" id="insertImageButton">이미지 추가</button>
+    <!-- 조리법을 편집 가능한 영역으로 표시 -->
+    <div id="recipeInstructions" contenteditable="true"></div>
+    <br /><br />
+    <button type="submit" id="submitButton">추가</button>
+    <button type="button" id="updateButton" style="display: none">
+      수정
+    </button>
+  </form>
+  <hr />
+
+  <!-- 기존 레시피 목록 -->
+  <div id="recipeList">
+    <h2>레시피 목록</h2>
+    <!-- 이 공간에 기존 레시피가 표시됩니다 -->
+  </div>
+
+  <hr />
+  <!-- 내 레시피북 -->
+  <div id="myRecipeBook">
+    <h2>내 레시피북</h2>
+    <!-- 이 공간에 스크랩된 레시피가 표시됩니다 -->
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const loggedInSection = document.getElementById("loggedInSection");
+    const displayUserId = document.getElementById("displayUserId");
+    const logoutButton = document.getElementById("logoutButton");
+
+    const addRecipeForm = document.getElementById("addRecipeForm");
+    const submitButton = document.getElementById("submitButton");
+    const updateButton = document.getElementById("updateButton");
+    let currentlyEditing = null;
+
+    const recipeList = document.getElementById("recipeList");
+    const myRecipeBook = document.getElementById("myRecipeBook");
+
+    // 로그인 기능
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const userId = document.getElementById("userId").value;
+      localStorage.setItem("loggedInUser", userId);
+      displayUserId.textContent = userId;
+      loginForm.style.display = "none";
+      loggedInSection.style.display = "block";
+      addRecipeForm.style.display = "block";
+      loadRecipes();
+      loadMyRecipeBook();
+    });
+
+    // 로그아웃 기능
+    logoutButton.addEventListener("click", function () {
+      localStorage.removeItem("loggedInUser");
+      loginForm.style.display = "block";
+      loggedInSection.style.display = "none";
+      addRecipeForm.style.display = "none";
+      recipeList.innerHTML = "<h2>레시피 목록</h2>";
+      myRecipeBook.innerHTML = "<h2>내 레시피북</h2>";
+    });
+
+    // 레시피 추가/수정 기능
+    addRecipeForm.addEventListener("submit", function (event) {
+      event.preventDefault(); // 폼 제출 방지
+
+      const loggedInUser = localStorage.getItem("loggedInUser");
+      if (!loggedInUser) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      const recipeName = document.getElementById("recipeName").value;
+      const recipeIngredients =
+        document.getElementById("recipeIngredients").value;
+      const recipeInstructionsHtml =
+        document.getElementById("recipeInstructions").innerHTML;
+
+      const newRecipe = {
+        title: recipeName,
+        ingredients: recipeIngredients,
+        instructions: recipeInstructionsHtml,
+        author: loggedInUser,
+      };
+
+      let existingRecipes = JSON.parse(localStorage.getItem("recipes")) || [];
+
+      if (currentlyEditing) {
+        // 기존 레시피 업데이트
+        const index = existingRecipes.findIndex(
+          (recipe) =>
+            recipe.title === currentlyEditing.querySelector("h3").innerText
+        );
+
+        existingRecipes[index] = newRecipe;
+        currentlyEditing.querySelector("h3").innerText = recipeName;
+        currentlyEditing.querySelector(".ingredients").innerText =
+          recipeIngredients;
+        currentlyEditing.querySelector(".instructions").innerHTML =
+          recipeInstructionsHtml;
+
+        currentlyEditing = null;
+        submitButton.style.display = "block";
+        updateButton.style.display = "none";
+      } else {
+        // 새로운 레시피 추가
+        existingRecipes.push(newRecipe);
+        const newRecipeDiv = document.createElement("div");
+        newRecipeDiv.innerHTML = `
+          <h3>${recipeName}</h3>
+          <p><strong>작성자:</strong> <span class="author">${loggedInUser}</span></p>
+          <p><strong>재료:</strong> <span class="ingredients">${recipeIngredients}</span></p>
+          <p><strong>조리법:</strong> <span class="instructions">${recipeInstructionsHtml}</span></p>
+          <button onclick="editRecipe(this)">수정</button>
+          <button onclick="deleteRecipe(this)">삭제</button>
+          <button onclick="scrapRecipe(this)">스크랩</button>
+        `;
+        recipeList.appendChild(newRecipeDiv);
+      }
+
+      localStorage.setItem("recipes", JSON.stringify(existingRecipes));
+      addRecipeForm.reset();
+      document.getElementById("recipeInstructions").innerHTML = "";
+    });
+
+    updateButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      addRecipeForm.dispatchEvent(new Event("submit"));
+    });
+
+    // 레시피 편집 기능
+    window.editRecipe = function (button) {
+      const recipe = button.parentNode;
+      const loggedInUser = localStorage.getItem("loggedInUser");
+      const author = recipe.querySelector(".author").innerText;
+
+      if (loggedInUser !== author) {
+        alert("작성자만 수정할 수 있습니다.");
+        return;
+      }
+
+      currentlyEditing = recipe;
+      // 제목과 재료 입력 필드에 기존 값 설정
+      document.getElementById("recipeName").value =
+        recipe.querySelector("h3").innerText;
+      document.getElementById("recipeIngredients").value =
+        recipe.querySelector(".ingredients").innerText;
+
+      // 조리법 필드에 기존 값 설정
+      const instructions = recipe.querySelector(".instructions").innerHTML;
+      document.getElementById("recipeInstructions").innerHTML = instructions;
+
+      // "추가" 버튼 숨기고 "수정" 버튼 보이기
+      submitButton.style.display = "none";
+      updateButton.style.display = "block";
+    };
+
+    // 레시피 삭제 기능
+    window.deleteRecipe = function (button) {
+      const recipe = button.parentNode;
+      const loggedInUser = localStorage.getItem("loggedInUser");
+      const author = recipe.querySelector(".author").innerText;
+
+      if (loggedInUser !== author) {
+        alert("작성자만 삭제할 수 있습니다.");
+        return;
+      }
+
+      // 로컬 저장소에서 삭제
+      let existingRecipes = JSON.parse(localStorage.getItem("recipes")) || [];
+      existingRecipes = existingRecipes.filter(
+        (r) => r.title !== recipe.querySelector("h3").innerText
+      );
+      localStorage.setItem("recipes", JSON.stringify(existingRecipes));
+
+      // 화면에서 삭제
+      recipe.parentNode.removeChild(recipe);
+    };
+
+    // 기존 레시피 로드 기능
+    function loadRecipes() {
+      const existingRecipes = JSON.parse(localStorage.getItem("recipes")) || [];
+      recipeList.innerHTML = "<h2>레시피 목록</h2>"; // 초기화
+      existingRecipes.forEach((recipe) => {
+        const recipeDiv = document.createElement("div");
+        recipeDiv.innerHTML = `
+          <h3>${recipe.title}</h3>
+          <p><strong>작성자:</strong> <span class="author">${recipe.author}</span></p>
+          <p><strong>재료:</strong> <span class="ingredients">${recipe.ingredients}</span></p>
+          <p><strong>조리법:</strong> <span class="instructions">${recipe.instructions}</span></p>
+          <button onclick="editRecipe(this)">수정</button>
+          <button onclick="deleteRecipe(this)">삭제</button>
+          <button onclick="scrapRecipe(this)">스크랩</button>
+        `;
+        recipeList.appendChild(recipeDiv);
+      });
+    }
+
+    // 스크랩 기능
+    window.scrapRecipe = function (button) {
+      const recipe = button.parentNode;
+      const title = recipe.querySelector("h3").innerText;
+      const author = recipe.querySelector(".author").innerText;
+      const ingredients = recipe.querySelector(".ingredients").innerText;
+      const instructions = recipe.querySelector(".instructions").innerHTML;
+
+      const scrapedRecipe = {
+        title,
+        author,
+        ingredients,
+        instructions,
+      };
+
+      let myRecipeBook = JSON.parse(localStorage.getItem("myRecipeBook")) || [];
+      myRecipeBook.push(scrapedRecipe);
+      localStorage.setItem("myRecipeBook", JSON.stringify(myRecipeBook));
+      loadMyRecipeBook();
+    };
+
+    // 내 레시피북 로드 기능
+    function loadMyRecipeBook() {
+      const myRecipeBookData = JSON.parse(localStorage.getItem("myRecipeBook")) || [];
+      myRecipeBook.innerHTML = "<h2>내 레시피북</h2>"; // 초기화
+      myRecipeBookData.forEach((recipe) => {
+        const recipeDiv = document.createElement("div");
+        recipeDiv.innerHTML = `
+          <h3>${recipe.title}</h3>
+          <p><strong>작성자:</strong> <span class="author">${recipe.author}</span></p>
+          <p><strong>재료:</strong> <span class="ingredients">${recipe.ingredients}</span></p>
+          <p><strong>조리법:</strong> <span class="instructions">${recipe.instructions}</span></p>
+        `;
+        myRecipeBook.appendChild(recipeDiv);
+      });
+    }
+
+    // 초기 로드
+    if (localStorage.getItem("loggedInUser")) {
+      const loggedInUser = localStorage.getItem("loggedInUser");
+      displayUserId.textContent = loggedInUser;
+      loginForm.style.display = "none";
+      loggedInSection.style.display = "block";
+      addRecipeForm.style.display = "block";
+      loadRecipes();
+      loadMyRecipeBook();
+    }
+
+    // 이미지 업로드 및 조리법 입력란에 추가
+    const imageInput = document.getElementById("imageInput");
+    const insertImageButton = document.getElementById("insertImageButton");
+    const recipeInstructions = document.getElementById("recipeInstructions");
+
+    insertImageButton.addEventListener("click", function () {
+      const file = imageInput.files[0]; // 선택된 파일 가져오기
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const imageUrl = event.target.result;
+          const img = document.createElement("img");
+          img.src = imageUrl;
+          img.alt = "레시피 이미지";
+          img.width = 150; // 이미지 크기 지정
+          img.height = 150;
+          recipeInstructions.appendChild(img);
+        };
+        reader.readAsDataURL(file); // 파일을 읽어 이미지 데이터 URL로 변환
+      } else {
+        alert("이미지를 선택하세요.");
+      }
+    });
+  </script>
+
+
+</body>
+
+</html>

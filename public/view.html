@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BestRecipe</title>
+    <style>
+        #recipeInstructions {
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 100px;
+            width: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>레시피</h1>
+    <hr />
+    <form id="addRecipeForm">
+        <h2>요리 이름</h2>
+        <label for="recipeName">글 제목:</label>
+        <input type="text" id="recipeName" name="recipeName" required /><br /><br />
+        <label for="recipeIngredients">재료</label><br />
+        <textarea id="recipeIngredients" name="recipeIngredients" rows="4" cols="50" required></textarea><br /><br />
+        <h2>조리법</h2>
+        <input type="file" id="imageInput" accept="image/*" required />
+        <button type="button" id="insertImageButton">이미지 추가</button>
+        <div id="recipeInstructions" contenteditable="true"></div><br /><br />
+        <button type="submit" id="submitButton">추가</button>
+        <button type="button" id="updateButton" style="display: none;">수정</button>
+    </form>
+    <hr />
+    <div id="recipeList">
+        <h2>레시피 목록</h2>
+    </div>
+
+    <script>
+        const addRecipeForm = document.getElementById("addRecipeForm");
+        const submitButton = document.getElementById("submitButton");
+        const updateButton = document.getElementById("updateButton");
+        const recipeList = document.getElementById("recipeList");
+        let currentlyEditing = null;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetchRecipes(); //페이지 로드시 레시피 로드 
+        });
+
+        function fetchRecipes() { //서버로부터 레시피 불러오기.. 
+            fetch("/recipes")
+            .then(response => response.json())
+            .then(recipes => {
+                recipes.forEach(recipe => addRecipeToDOM(recipe)); //각 레시피를 DOM에 추가 
+            })
+            .catch(error => console.error("Failed to load recipes:", error));
+        }
+        // DOM에 레시피 추가 
+        function addRecipeToDOM(recipe) {
+            const newRecipeDiv = document.createElement("div");
+            newRecipeDiv.innerHTML = `
+                <h3>${recipe.title}</h3>
+                <p><strong>재료:</strong> <span class="ingredients">${recipe.ingredients}</span></p>
+                <p><strong>조리법:</strong> <span class="instructions">${recipe.instructions}</span></p>
+                <button onclick="editRecipe(this, '${recipe.title}')">수정</button>
+                <button onclick="deleteRecipe('${recipe.title}')">삭제</button>
+            `;
+            recipeList.appendChild(newRecipeDiv);
+        }
+        //폼 제출 이벤트 리스너
+        addRecipeForm.addEventListener("submit", function (event) {
+            event.preventDefault(); //기본 동작 방지 
+
+            const formData = new FormData();
+            formData.append('recipeName', document.getElementById('recipeName').value);
+            formData.append('recipeIngredients', document.getElementById('recipeIngredients').value);
+            formData.append('recipeInstructions', document.getElementById('recipeInstructions').textContent);
+            const imageInput = document.getElementById('imageInput');
+            if (imageInput.files.length > 0) {
+                formData.append('image', imageInput.files[0]);
+            }
+
+            fetch('/add-recipe', {
+                method: 'POST',
+                body: formData // 전송
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Recipe added successfully:', data);
+                // You might want to update the UI to show the new recipe
+            })
+            .catch(error => console.error('Error adding recipe:', error));
+            const recipeData = {
+                title: document.getElementById("recipeName").value,
+                ingredients: document.getElementById("recipeIngredients").value,
+                instructions: document.getElementById("recipeInstructions").textContent
+            };
+
+            const method = currentlyEditing ? "PUT" : "POST";
+            const apiEndpoint = currentlyEditing ? `/edit-recipe/${currentlyEditing}` : "/add-recipe";
+
+            //API 엔드포인트 지정 
+            fetch(apiEndpoint, {
+                method: method,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(recipeData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (currentlyEditing) {
+                    // Update the DOM element
+                    updateRecipeInDOM(currentlyEditing, recipeData);
+                } else {
+                    // Add new recipe to the DOM
+                    addRecipeToDOM(recipeData);
+                }
+                resetForm();
+            })
+            .catch(error => console.error("Error:", error));
+        });
+
+        //DOM 레시피 정보 업데이트 
+        function updateRecipeInDOM(title, recipeData) { 
+            let divToUpdate = [...document.querySelectorAll('#recipeList div')].find(div=>  {
+              const heading=divToUpdate.querySelector('h3');
+              if (heading && heading.innerText === title) {
+              return divToUpdate;
+              }
+              });
+              if (divToUpdate) {
+        divToUpdate.querySelector('.ingredients').innerText = recipeData.ingredients;
+        divToUpdate.querySelector('.instructions').innerText = recipeData.instructions;
+    }
+}
+//레시피 수정을 위해 폼에 데이터를 채우는 함수 
+function editRecipe(button, title) { 
+    const recipeDiv = button.parentNode;
+    document.getElementById("recipeName").value = recipeDiv.querySelector("h3").innerText;
+    document.getElementById("recipeIngredients").value = recipeDiv.querySelector(".ingredients").innerText;
+    document.getElementById("recipeInstructions").innerText = recipeDiv.querySelector(".instructions").innerText;
+
+    submitButton.style.display = "none";
+    updateButton.style.display = "block";
+    currentlyEditing = title;
+}
+//레시피 삭제 함수 
+function deleteRecipe(title) {
+    fetch(`/delete-recipe/${encodeURIComponent(title)}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(() => {
+        removeRecipeFromDOM(title);
+    })
+    .catch(error => console.error('Error deleting recipe:', error));
+}
+
+//DOM에서 레시피 요소를 제거하는 함수 
+function removeRecipeFromDOM(title) {
+    let recipeDivs = document.querySelectorAll('#recipeList div');
+    recipeDivs.forEach(div => {
+        if (div.querySelector('h3').innerText === title) {
+            div.parentNode.removeChild(div);
+        }
+    });
+}
+//폼 입력 필드 초기화 
+function resetForm() {
+    addRecipeForm.reset();
+    document.getElementById("recipeInstructions").innerText = '';
+    submitButton.style.display = "block";
+    updateButton.style.display = "none";
+    currentlyEditing = null;
+}
+
+//이미지 추가 버튼 이벤트리스너 
+document.getElementById("insertImageButton").addEventListener("click", function() {
+    const fileInput = document.getElementById("imageInput");
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.alt = "Uploaded Image";
+            img.style.width = "150px";
+            img.style.height = "150px";
+            document.getElementById("recipeInstructions").appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        alert("Please select an image file.");
+    }
+});
+</script>
+</body>
+</html>
+
+
+        

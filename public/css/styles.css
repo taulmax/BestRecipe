@@ -486,6 +486,11 @@ main {
     cursor: pointer;
 }
 
+.cyber_main_content_box .recipe-card.dummy {
+    width: 400px;
+    cursor: default;
+}
+
 .cyber_main_content_box .recipe-card img {
     width: 400px;
     height: 400px;

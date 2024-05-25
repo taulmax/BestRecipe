@@ -67,6 +67,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
         recipes.appendChild(card);
       });
+
+      // dummy data 만들어서 grid 채워넣는 로직
+      const dummyLength = 3 - (data.length % 3);
+      for (let i = 0; i < dummyLength; i++) {
+        const card = document.createElement("div");
+        card.classList.add("recipe-card");
+        card.classList.add("dummy");
+        recipes.appendChild(card);
+      }
     } catch (error) {
       console.error("Error fetching config:", error);
     }
@@ -85,35 +94,42 @@ function attachImage() {
   document.getElementById("image").click();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector("form").addEventListener("submit", async function (e) {
-    e.preventDefault();
+if (location.pathname === "/writeRecipe.html") {
+  document.addEventListener("DOMContentLoaded", () => {
+    document
+      .querySelector("form")
+      .addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("food", document.getElementById("food").value);
-    formData.append("subTitle", document.getElementById("sub_title").value);
-    formData.append("recipe", document.getElementById("recipe").value);
-    formData.append("image", document.getElementById("image").files[0]);
-    formData.append("ingredient", document.getElementById("ingredient").value);
+        const formData = new FormData();
+        formData.append("food", document.getElementById("food").value);
+        formData.append("subTitle", document.getElementById("sub_title").value);
+        formData.append("recipe", document.getElementById("recipe").value);
+        formData.append("image", document.getElementById("image").files[0]);
+        formData.append(
+          "ingredient",
+          document.getElementById("ingredient").value
+        );
 
-    try {
-      const response = await fetch("/recipes", {
-        method: "POST",
-        body: formData,
+        try {
+          const response = await fetch("/recipes", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            console.log("New recipe added:", result);
+            location.href = "/cyberRecipe.html";
+            toast.success("성공적으로 레시피를 생성했습니다!");
+            // 여기 토스트 뜨게 해줘야함
+          } else {
+            console.error("Failed to add recipe");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          toast.failure("레시피 생성에 실패했습니다 :(");
+        }
       });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("New recipe added:", result);
-        location.href = "/cyberRecipe.html";
-        toast.success("성공적으로 레시피를 생성했습니다!");
-        // 여기 토스트 뜨게 해줘야함
-      } else {
-        console.error("Failed to add recipe");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      toast.failure("레시피 생성에 실패했습니다 :(");
-    }
   });
-});
+}

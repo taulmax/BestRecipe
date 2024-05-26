@@ -41,9 +41,6 @@ app.get("/api/keys", (req, res) => {
     case "kakao":
       apiKey = process.env.KAKAO_API_KEY;
       break;
-    case "youtube":
-      apiKey = process.env.YOUTUBE_API_KEY;
-      break;
     default:
       return res.status(400).json({ error: "API Key Type 설정 오류" });
   }

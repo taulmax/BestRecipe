@@ -40,7 +40,10 @@ toast.failure = function (text) {
 
 function isLogin(link) {
   if (localStorage.getItem("userId")) {
-    location.href = link;
+    if (link) {
+      location.href = link;
+      return;
+    }
     return;
   } else {
     const isLoginDialog = document.getElementById("isLogin_dialog");

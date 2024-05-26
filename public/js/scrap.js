@@ -39,6 +39,11 @@ async function onClickScrap(iconElement) {
   const userId = parseInt(localStorage.getItem("userId"));
   const recipeId = parseInt(iconElement.dataset.id);
 
+  if (!userId) {
+    isLogin();
+    return;
+  }
+
   try {
     const response = await fetch("/api/scrap", {
       method: "POST",
@@ -70,6 +75,11 @@ async function onClickScrap(iconElement) {
 async function onClickDeleteScrap(iconElement) {
   const userId = parseInt(localStorage.getItem("userId"));
   const recipeId = parseInt(iconElement.dataset.id);
+
+  if (!userId) {
+    isLogin();
+    return;
+  }
 
   try {
     const response = await fetch("/api/scrap", {

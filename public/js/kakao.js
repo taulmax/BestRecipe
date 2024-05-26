@@ -22,12 +22,7 @@ function kakaoLogin() {
           const nickname = res.properties.nickname;
           localStorage.setItem("userId", userId);
           localStorage.setItem("nickname", nickname);
-          document.querySelector(".login").style.display = "none";
-          document.querySelector(".logout_wrapper").style.display = "block";
-          document.querySelector(
-            ".welcome"
-          ).textContent = `${nickname}님 안녕하세요😆`;
-          toast.success("성공적으로 로그인 되었습니다!");
+          location.reload();
           if (document.getElementById("isLogin_dialog")) {
             document.getElementById("isLogin_dialog").close();
           }

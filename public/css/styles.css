@@ -349,6 +349,15 @@ main {
     height: 400px;
     border-radius: 10px;
     overflow: hidden;
+    position: relative;
+}
+
+.recipe-card .food_image_wrapper .scrap_icon {
+    position: absolute;
+    top: 36px;
+    right: 36px;
+    color: #ffffff;
+    font-size: 36px;
 }
 
 .slider-track .recipe-card img {
@@ -359,8 +368,17 @@ main {
     transition: all 0.2s ease-out;
 }
 
-.recipe-card img:hover {
+.recipe-card .food_image_wrapper:hover img,
+.recipe-card .food_image_wrapper .scrap_icon:hover~img {
     transform: scale(1.1);
+}
+
+.recipe-card .food_image_wrapper .scrap_icon:hover {
+    color: #2be1a2;
+}
+
+.recipe-card .food_image_wrapper .scrap_icon.fas {
+    color: #2be1a2;
 }
 
 .recipe-card .content {

@@ -1,7 +1,10 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  if (location.pathname === "/") {
+if (location.pathname === "/") {
+  document.addEventListener("DOMContentLoaded", async () => {
     try {
-      const response = await fetch("/api/recipes/main");
+      const userId = localStorage.getItem("userId");
+      const response = await fetch(
+        `/api/recipes/main?${userId ? `userId=${userId}` : ""}`
+      );
       const data = await response.json();
       const recipeCards = document.querySelectorAll("#recipes .recipe-card");
       data.forEach((item, index) => {
@@ -9,6 +12,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         card.innerHTML = `
           <div class="food_image_wrapper">
             <img src="${item.image}" alt="${item.food}">
+            <i data-id="${item.id}" class="${
+          item.isScrapped ? "fas" : "far"
+        } fa-bookmark scrap_icon" onclick="${
+          item.isScrapped ? "onClickDeleteScrap" : "onClickScrap"
+        }(this)"></i>
           </div>
           <div class="content">
             <h3>${item.food}</h3>
@@ -44,13 +52,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
       console.error("Error fetching config:", error);
     }
-  }
-});
+  });
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
   if (location.pathname === "/cyberRecipe.html") {
     try {
-      const response = await fetch("/api/recipes");
+      const userId = localStorage.getItem("userId");
+      const response = await fetch(
+        `/api/recipes?${userId ? `userId=${userId}` : ""}`
+      );
       const data = await response.json();
       const recipes = document.getElementById("recipes");
       data.forEach((item, index) => {
@@ -59,6 +70,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         card.innerHTML = `
           <div class="food_image_wrapper">
             <img src="${item.image}" alt="${item.food}">
+            <i data-id="${item.id}" class="${
+          item.isScrapped ? "fas" : "far"
+        } fa-bookmark scrap_icon" onclick="${
+          item.isScrapped ? "onClickDeleteScrap" : "onClickScrap"
+        }(this)"></i>
           </div>
           <div class="content">
             <h3>${item.food}</h3>

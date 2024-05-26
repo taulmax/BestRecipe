@@ -76,16 +76,59 @@ app.get("/api/keys", (req, res) => {
 // 레시피 데이터 경로
 const RECIPES_DATA = path.join(__dirname, "recipes.json");
 
+// 스크랩 데이터 경로
+const SCRAP_DATA = path.join(__dirname, "scrap.json");
+
+// 스크랩된 레시피 ID만 리턴하는 함수
+function getRecipeIdsByUserId(userId, scrapData) {
+  return scrapData.reduce((acc, item) => {
+    if (parseInt(item.userId) === parseInt(userId)) {
+      acc.push(parseInt(item.recipeId));
+    }
+    return acc;
+  }, []);
+}
+
 // 레시피 조회 API (메인 페이지, 제한된 수)
 app.get("/api/recipes/main", (req, res) => {
   const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
-  res.json(recipes.slice(0, 9));
+  const { userId } = req.query;
+  if (userId) {
+    const scrapData = JSON.parse(fs.readFileSync(SCRAP_DATA, "utf8"));
+    const scrapRecipeIds = getRecipeIdsByUserId(userId, scrapData);
+    const recipesWithScrap = recipes.map((recipe) => {
+      if (scrapRecipeIds.includes(recipe.id)) {
+        recipe.isScrapped = true;
+      } else {
+        recipe.isScrapped = false;
+      }
+      return recipe;
+    });
+    res.json(recipesWithScrap.slice(0, 9));
+  } else {
+    res.json(recipes.slice(0, 9));
+  }
 });
 
 // 레시피 조회 API (전체 레시피)
 app.get("/api/recipes", (req, res) => {
   const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
-  res.json(recipes);
+  const { userId } = req.query;
+  if (userId) {
+    const scrapData = JSON.parse(fs.readFileSync(SCRAP_DATA, "utf8"));
+    const scrapRecipeIds = getRecipeIdsByUserId(userId, scrapData);
+    const recipesWithScrap = recipes.map((recipe) => {
+      if (scrapRecipeIds.includes(recipe.id)) {
+        recipe.isScrapped = true;
+      } else {
+        recipe.isScrapped = false;
+      }
+      return recipe;
+    });
+    res.json(recipesWithScrap);
+  } else {
+    res.json(recipes);
+  }
 });
 
 // 레시피 추가 API
@@ -110,14 +153,10 @@ app.post("/api/recipes", upload.single("image"), (req, res) => {
   res.status(201).json(newRecipe);
 });
 
-// 스크랩 데이터 경로
-const SCRAP_DATA = path.join(__dirname, "scrap.json");
-
 // 스크랩 조회 API
 app.get("/api/scrap/:userId", (req, res) => {
   const userId = parseInt(req.params.userId, 10);
   const scrapData = JSON.parse(fs.readFileSync(SCRAP_DATA, "utf8"));
-
   const userScrapData = scrapData.filter((scrap) => scrap.userId === userId);
 
   if (userScrapData.length > 0) {
@@ -158,6 +197,34 @@ app.post("/api/scrap", (req, res) => {
   fs.writeFileSync(SCRAP_DATA, JSON.stringify(scrapData, null, 2));
 
   res.status(201).json({ message: "스크랩이 추가되었습니다." });
+});
+
+// 스크랩 삭제 API
+app.delete("/api/scrap", (req, res) => {
+  const { userId, recipeId } = req.body;
+
+  if (!userId || !recipeId) {
+    return res
+      .status(400)
+      .json({ error: "userId와 recipeId를 모두 제공해야 합니다." });
+  }
+
+  const scrapData = JSON.parse(fs.readFileSync(SCRAP_DATA, "utf8"));
+
+  // 스크랩 데이터에서 삭제할 스크랩 찾기
+  const index = scrapData.findIndex(
+    (scrap) => scrap.userId === userId && scrap.recipeId === recipeId
+  );
+
+  if (index === -1) {
+    return res.status(404).json({ error: "해당 스크랩을 찾을 수 없습니다." });
+  }
+
+  // 스크랩 삭제
+  scrapData.splice(index, 1);
+  fs.writeFileSync(SCRAP_DATA, JSON.stringify(scrapData, null, 2));
+
+  res.json({ message: "스크랩이 성공적으로 삭제되었습니다." });
 });
 
 // 로컬호스트로 들어가면 바로 뜨는화면 home.html으로 설정

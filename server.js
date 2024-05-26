@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import recipesRouter from "./routes/recipes.js";
 import scrapRouter from "./routes/scrap.js";
 import weatherRouter from "./routes/weather.js";
+import youtubeRouter from "./routes/youtube.js";
 
 dotenv.config();
 
@@ -37,9 +38,6 @@ app.get("/api/keys", (req, res) => {
   let apiKey;
 
   switch (type) {
-    case "weather":
-      apiKey = process.env.WEATHER_API_KEY;
-      break;
     case "kakao":
       apiKey = process.env.KAKAO_API_KEY;
       break;
@@ -54,6 +52,7 @@ app.get("/api/keys", (req, res) => {
 });
 
 app.use("/api/weather", weatherRouter);
+app.use("/api/youtube", youtubeRouter);
 app.use("/api/recipes", recipesRouter);
 app.use("/api/scrap", scrapRouter);
 

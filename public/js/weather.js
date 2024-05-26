@@ -6,19 +6,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await response.json();
     const API_KEY = data.apiKey;
     WEATHER_API_KEY = API_KEY;
+
+    // 현재 위치정보 가능 여부
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+      document.getElementById("location").textContent =
+        "이 브라우저에서는 날씨 정보가 지원이 되지 않아요 :(";
+    }
   } catch (error) {
     console.error("Error fetching config:", error);
   }
 });
-
-// 현재 위치정보 가능 여부
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-} else {
-  console.log("Geolocation is not supported by this browser.");
-  document.getElementById("location").textContent =
-    "이 브라우저에서는 날씨 정보가 지원이 되지 않아요 :(";
-}
 
 // 날씨 전역 변수
 let weather;

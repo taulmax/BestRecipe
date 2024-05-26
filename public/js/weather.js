@@ -1,52 +1,34 @@
-// .env 파일에서 weather api key 숨겨져 가져오기
-let WEATHER_API_KEY;
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const response = await fetch("/api/keys?type=weather");
-    const data = await response.json();
-    const API_KEY = data.apiKey;
-    WEATHER_API_KEY = API_KEY;
-
-    // 현재 위치정보 가능 여부
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-      document.getElementById("location").textContent =
-        "이 브라우저에서는 날씨 정보가 지원이 되지 않아요 :(";
-    }
-  } catch (error) {
-    console.error("Error fetching config:", error);
-  }
-});
-
-// 날씨 전역 변수
-let weather;
+let weather; // 날씨 전역 변수
 let weatherError = undefined;
 
-// 날씨 API
-const getWeather = (lat, lon) => {
-  return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric&lang=kr`
-  ).then((response) => {
-    return response.json();
-  });
-};
+document.addEventListener("DOMContentLoaded", async () => {
+  // 현재 위치정보 가능 여부
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+    document.getElementById("location").textContent =
+      "이 브라우저에서는 날씨 정보가 지원이 되지 않아요 :(";
+  }
+});
 
 // 성공 시 콜백함수
 async function successCallback(position) {
   const latitude = position.coords.latitude;
   const longitude = position.coords.longitude;
   try {
-    const weatherData = await getWeather(latitude, longitude);
-    weather = weatherData;
+    const response = await fetch(
+      `/api/weather?lat=${latitude}&lon=${longitude}`
+    );
+    weather = await response.json();
+
     document.getElementById("location").style.display = "none";
     document.getElementById(
       "weather"
-    ).textContent = `오늘의 날씨는 "${weatherData.weather[0].description}"이네요!`;
+    ).textContent = `오늘의 날씨는 "${weather.weather[0].description}"이네요!`;
     document.getElementById(
       "temp_wind"
-    ).innerHTML = `온도는 ${weatherData.main.temp}&deg;, 바람세기는 ${weatherData.wind.speed}에요!`;
+    ).innerHTML = `온도는 ${weather.main.temp}&deg;, 바람세기는 ${weather.wind.speed}에요!`;
     weatherError = false;
   } catch (error) {
     console.error("Error fetching weather data:", error);

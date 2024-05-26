@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await response.json();
     const API_KEY = data.apiKey;
 
-    const SEARCH_URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q=집밥레시피&key=${API_KEY}`;
+    const SEARCH_URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=18&q=집밥레시피&key=${API_KEY}`;
     fetch(SEARCH_URL)
       .then((response) => response.json())
       .then((data) => {

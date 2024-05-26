@@ -67,3 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem(POST_RECIPE);
   }
 });
+
+// 컴포넌트 관리
+async function loadPartial(id, url) {
+  const response = await fetch(url);
+  const text = await response.text();
+  document.getElementById(id).innerHTML = text;
+}

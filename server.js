@@ -58,16 +58,16 @@ app.use("/api/scrap", scrapRouter);
 
 // 로컬호스트로 들어가면 바로 뜨는화면 home.html으로 설정
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "home.html"));
+  res.sendFile(path.join(__dirname, "public", "pages", "home.html"));
 });
 app.get("/cyberRecipes", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "cyberRecipe.html"));
+  res.sendFile(path.join(__dirname, "public", "pages", "cyberRecipe.html"));
 });
 app.get("/writeRecipe.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "writeRecipe.html"));
+  res.sendFile(path.join(__dirname, "public", "pages", "writeRecipe.html"));
 });
 app.get("/scrap.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "scrap.html"));
+  res.sendFile(path.join(__dirname, "public", "pages", "scrap.html"));
 });
 
 //서버시작

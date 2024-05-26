@@ -93,7 +93,10 @@ app.post("/api/recipes", upload.single("image"), (req, res) => {
   const { food, subTitle, recipe, ingredient } = req.body;
   const image = req.file ? "images/" + req.file.filename : null;
 
+  const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
+
   const newRecipe = {
+    id: recipes.length + 1,
     food,
     subTitle,
     recipe,
@@ -101,7 +104,6 @@ app.post("/api/recipes", upload.single("image"), (req, res) => {
     ingredient,
   };
 
-  const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
   recipes.push(newRecipe);
 
   fs.writeFileSync(RECIPES_DATA, JSON.stringify(recipes, null, 2), "utf8");

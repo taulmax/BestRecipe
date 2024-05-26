@@ -11,7 +11,7 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script src="js/index.js"></script>
     <script src="js/kakao.js"></script>
-    <script src="js/recipe.js"></script>
+    <script src="js/scrap.js"></script>
 </head>
 
 <body>
@@ -41,41 +41,12 @@
     </header>
 
     <!-- 사이-바 레시피 -->
-    <div id="write_cyber" class="main_content">
+    <div class="main_content">
         <header class="main_content_header" style="margin-top:28px;">
-            <h1>사이-바 레시피를 등록해주세요!</h1>
+            <h1>사이-바 레시피</h1>
+            <div onclick="isLogin('/writeRecipe.html')" class="more">레시피 작성하기</div>
         </header>
-        <div class="write_wrapper">
-            <form>
-                <div class="form-group">
-                    <label for="food">요리 이름</label>
-                    <input type="text" onfocus="addFocusClass('food')" onblur="removeFocusClass('food')" id="food"
-                        name="food" placeholder="요리 이름을 입력해 주세요">
-                </div>
-                <div class="form-group">
-                    <label for="sub_title">부제</label>
-                    <input type="text" onfocus="addFocusClass('sub_title')" onblur="removeFocusClass('sub_title')"
-                        id="sub_title" name="sub_title" placeholder="부제를 입력해 주세요">
-                </div>
-                <div class="form-group">
-                    <label for="recipe">레시피</label>
-                    <textarea onfocus="addFocusClass('recipe')" onblur="removeFocusClass('recipe')" id="recipe"
-                        name="recipe" placeholder="레시피를 입력해 주세요"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="image">완성 이미지 (필수항목)</label>
-                    <div class="file-input-wrapper">
-                        <input type="file" id="image" name="image" accept="image/*">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="ingredient">재료 (필수입력)</label>
-                    <input onfocus="addFocusClass('ingredient')" onblur="removeFocusClass('ingredient')" type="text"
-                        id="ingredient" name="ingredient" placeholder="핵심키워드를 입력해 주세요">
-                </div>
-                <button type="submit" class="submit-btn">작성 완료</button>
-            </form>
-        </div>
+        <div id="recipes" class="main_content_box cyber_main_content_box"></div>
     </div>
 
     <footer class="footer">

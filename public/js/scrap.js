@@ -9,15 +9,19 @@ if (location.pathname === "/scrap.html") {
         const card = document.createElement("div");
         card.classList.add("recipe-card");
         card.innerHTML = `
-              <div class="food_image_wrapper">
-                <img src="${item.image}" alt="${item.food}">
-                <i data-id="${item.id}" class="far fa-bookmark scrap_icon" onclick="onClickScrap(this)"></i>
-              </div>
-              <div class="content">
-                <h3>${item.food}</h3>
-                <p>${item.subTitle}</p>
-              </div>
-            `;
+          <div class="food_image_wrapper">
+            <img src="${item.image}" alt="${item.food}">
+            <i data-id="${item.id}" class="${
+          item.isScrapped ? "fas" : "far"
+        } fa-bookmark scrap_icon" onclick="${
+          item.isScrapped ? "onClickDeleteScrap" : "onClickScrap"
+        }(this)"></i>
+          </div>
+          <div class="content">
+            <h3>${item.food}</h3>
+            <p>${item.subTitle}</p>
+          </div>
+        `;
         recipes.appendChild(card);
       });
 

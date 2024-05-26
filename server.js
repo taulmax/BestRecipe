@@ -162,9 +162,10 @@ app.get("/api/scrap/:userId", (req, res) => {
   if (userScrapData.length > 0) {
     const recipeIdArray = userScrapData.map((scrap) => scrap.recipeId);
     const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
-    const recipeData = recipes.filter((recipe) =>
-      recipeIdArray.includes(recipe.id)
-    );
+    const recipeData = recipes.filter((recipe) => {
+      recipe.isScrapped = true;
+      return recipeIdArray.includes(recipe.id);
+    });
     res.json(recipeData);
   } else {
     res.json([]);

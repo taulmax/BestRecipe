@@ -45,5 +45,5 @@ function logout() {
   document.querySelector(".login").style.display = "block";
   document.querySelector(".logout_wrapper").style.display = "none";
   document.querySelector(".welcome").textContent = "";
-  toast.success("성공적으로 로그아웃 되었습니다!");
+  location.reload();
 }

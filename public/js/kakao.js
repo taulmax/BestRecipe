@@ -22,6 +22,7 @@ function kakaoLogin() {
           const nickname = res.properties.nickname;
           localStorage.setItem("userId", userId);
           localStorage.setItem("nickname", nickname);
+          localStorage.setItem("login", 1);
           location.reload();
           if (document.getElementById("isLogin_dialog")) {
             document.getElementById("isLogin_dialog").close();
@@ -40,5 +41,6 @@ function logout() {
   document.querySelector(".login").style.display = "block";
   document.querySelector(".logout_wrapper").style.display = "none";
   document.querySelector(".welcome").textContent = "";
+  localStorage.setItem("logout", 1);
   location.reload();
 }

@@ -50,3 +50,16 @@ function isLogin(link) {
     isLoginDialog.showModal();
   }
 }
+
+// 토스트 메시지 관리
+document.addEventListener("DOMContentLoaded", () => {
+  const [LOGIN, LOGOUT] = ["login", "logout"];
+  if (localStorage.getItem(LOGIN)) {
+    toast.success("성공적으로 로그인 되었습니다!");
+    localStorage.removeItem(LOGIN);
+  }
+  if (localStorage.getItem(LOGOUT)) {
+    toast.success("성공적으로 로그아웃 되었습니다!");
+    localStorage.removeItem(LOGOUT);
+  }
+});

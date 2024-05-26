@@ -53,7 +53,7 @@ function isLogin(link) {
 
 // 토스트 메시지 관리
 document.addEventListener("DOMContentLoaded", () => {
-  const [LOGIN, LOGOUT] = ["login", "logout"];
+  const [LOGIN, LOGOUT, POST_RECIPE] = ["login", "logout", "postRecipe"];
   if (localStorage.getItem(LOGIN)) {
     toast.success("성공적으로 로그인 되었습니다!");
     localStorage.removeItem(LOGIN);
@@ -61,5 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem(LOGOUT)) {
     toast.success("성공적으로 로그아웃 되었습니다!");
     localStorage.removeItem(LOGOUT);
+  }
+  if (localStorage.getItem(POST_RECIPE)) {
+    toast.success("성공적으로 레시피를 생성했습니다!");
+    localStorage.removeItem(POST_RECIPE);
   }
 });

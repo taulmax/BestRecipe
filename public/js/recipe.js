@@ -136,9 +136,8 @@ if (location.pathname === "/writeRecipe.html") {
           if (response.ok) {
             const result = await response.json();
             console.log("New recipe added:", result);
+            localStorage.setItem("postRecipe", 1);
             location.href = "/cyberRecipe.html";
-            toast.success("성공적으로 레시피를 생성했습니다!");
-            // 여기 토스트 뜨게 해줘야함
           } else {
             console.error("Failed to add recipe");
           }

@@ -213,7 +213,7 @@ if (location.pathname.startsWith("/recipe/")) {
     date.textContent = data.date;
     author.textContent = `작성자: ${data.author}`;
     subTitle.textContent = data.subTitle;
-    recipeImg.src = `/${data.image}`;
+    recipeImg.src = `${data.image}`;
     recipeImg.alt = data.food;
 
     parseIngredients(data.ingredients).forEach((ingredient) => {

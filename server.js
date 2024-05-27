@@ -57,7 +57,7 @@ app.use("/api/scrap", scrapRouter);
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pages", "home.html"));
 });
-app.get("/cyberRecipes", (req, res) => {
+app.get("/cyberRecipe.html", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pages", "cyberRecipe.html"));
 });
 app.get("/writeRecipe.html", (req, res) => {

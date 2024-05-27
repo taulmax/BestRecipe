@@ -605,3 +605,120 @@ main {
 #write_cyber .submit-btn:hover {
     background-color: #1f8d67;
 }
+
+/* 사-이-바 레시피 상세상세 */
+#recipe_detail {
+    padding: 80px 0px;
+}
+
+#recipe_detail .main_content_header {
+    width: 100%;
+    height: 300px;
+    background-image: url(/images/bg_pattern_green.png);
+    background-color: #eff9ef;
+    padding: 0px 400px;
+    flex-direction: column;
+    align-items: initial;
+    justify-content: center;
+}
+
+#recipe_detail .main_content_header .label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 126px;
+    margin-bottom: 16px;
+    padding: 6px 12px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #0bab6d;
+}
+
+#recipe_detail .main_content_header h1 {
+    font-size: 48px;
+}
+
+#recipe_detail .main_content_header .header_info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+#recipe_detail .main_content_header .date {
+    font-size: 16px;
+    color: #808080;
+}
+
+#recipe_detail .main_content {
+    padding: 0px 400px;
+}
+
+#recipe_detail .main_content .sub_title {
+    font-size: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 48px;
+}
+
+#recipe_detail .main_content .description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+    color: #383838;
+    line-height: 26px;
+}
+
+#recipe_detail .main_content img {
+    width: 720px;
+    height: 720px;
+    object-fit: cover;
+    margin-top: 48px;
+}
+
+#recipe_detail .main_content .ingredients_title {
+    font-size: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 72px;
+    margin-bottom: 12px;
+}
+
+#recipe_detail .main_content .ingredients_list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 20px;
+}
+
+#recipe_detail .main_content .ingredients_list li {
+    margin-top: 16px;
+}
+
+#recipe_detail .main_content .ingredients_list li::before {
+    content: "\2705";
+    margin-right: 6px;
+}
+
+#recipe_detail .main_content .recipe_title {
+    font-size: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 72px;
+    margin-bottom: 12px;
+}
+
+#recipe_detail .main_content .recipe_description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 20px;
+}
+
+#recipe_detail .main_content .recipe_description span {
+    margin-top: 16px;
+}

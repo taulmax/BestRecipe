@@ -41,42 +41,43 @@
         </div>
     </header>
 
-    <!-- 사이-바 레시피 -->
-    <div id="write_cyber" class="main_content">
-        <header class="main_content_header" style="margin-top:28px;">
-            <h1>요리이름</h1>
+    <!-- 상-세 레시피 -->
+    <div id="recipe_detail" class="main_content">
+        <header class="main_content_header">
+            <span class="label">사이-바 레시피</span>
+            <h1>불고기</h1>
+            <div class="header_info">
+                <span class="date">2024.05.21 08:00</span>
+                <span class="author">작성자: 심규성</span>
+            </div>
         </header>
-        <div class="write_wrapper">
-            <form>
-                <div class="form-group">
-                    <label for="food">요리 이름</label>
-                    <input type="text" onfocus="addFocusClass('food')" onblur="removeFocusClass('food')" id="food"
-                        name="food" placeholder="요리 이름을 입력해 주세요">
-                </div>
-                <div class="form-group">
-                    <label for="sub_title">부제</label>
-                    <input type="text" onfocus="addFocusClass('sub_title')" onblur="removeFocusClass('sub_title')"
-                        id="sub_title" name="sub_title" placeholder="부제를 입력해 주세요">
-                </div>
-                <div class="form-group">
-                    <label for="recipe">레시피</label>
-                    <textarea onfocus="addFocusClass('recipe')" onblur="removeFocusClass('recipe')" id="recipe"
-                        name="recipe" placeholder="레시피를 입력해 주세요"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="image">완성 이미지 (필수항목)</label>
-                    <div class="file-input-wrapper">
-                        <input type="file" id="image" name="image" accept="image/*">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="ingredient">재료 (필수입력)</label>
-                    <input onfocus="addFocusClass('ingredient')" onblur="removeFocusClass('ingredient')" type="text"
-                        id="ingredient" name="ingredient" placeholder="핵심키워드를 입력해 주세요">
-                </div>
-                <button type="submit" class="submit-btn">작성 완료</button>
-            </form>
-        </div>
+        <main class="main_content">
+            <div class="sub_title">달콤하고 짭짤한 한국식 소고기 요리</div>
+            <div class="description">
+                <span>언제 먹어도 맛있는 레시피들</span>
+                <span>사이-바 백종원과 함께 비법을 알아봐요!</span>
+            </div>
+            <img src="/images/불고기.jpeg" alt="불고기">
+            <div class="ingredients_title">재료는 이런 것들이 필요해요!</div>
+            <ul class="ingredients_list">
+                <li>소고기 500g</li>
+                <li>간장 5큰술</li>
+                <li>설탕 2큰술</li>
+                <li>다진 마늘 1큰술</li>
+                <li>참기름 1큰술</li>
+                <li>파 1대</li>
+                <li>후추 약간</li>
+            </ul>
+            <div class="recipe_title">이대로만 요리하면 당신은 백종원!</div>
+            <span class="recipe_description">
+                <span>1. 소고기를 얇게 썰어 준비합니다.</span>
+                <span>2. 간장, 설탕, 다진 마늘, 참기름, 후추를 섞어 양념장을 만듭니다.</span>
+                <span>3. 얇게 썬 소고기에 양념장을 부어 30분간 재웁니다.</span>
+                <span>4. 파를 송송 썰어 준비합니다.</span>
+                <span>5. 팬에 소고기와 파를 넣고 중불에서 볶아줍니다.</span>
+                <span>6. 고기가 익고 양념이 잘 배면 불을 끕니다.</span>
+            </span>
+        </main>
     </div>
 
     <footer class="footer">

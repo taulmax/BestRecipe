@@ -564,6 +564,10 @@ main {
     position: relative;
 }
 
+#write_cyber .recipe_input_wrapper:not(:last-child) {
+    margin-bottom: 12px;
+}
+
 #write_cyber .recipe_input_wrapper .add_button {
     position: absolute;
     top: 50%;

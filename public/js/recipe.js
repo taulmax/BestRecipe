@@ -116,6 +116,31 @@ function attachImage() {
   document.getElementById("image").click();
 }
 
+function onClickAddButton() {
+  const recipeFormGroup = document.getElementById("recipe_form-group");
+  const recipeInputWrappers = document.querySelectorAll(
+    ".recipe_input_wrapper"
+  );
+  const nextRecipeInputWrappers = document.createElement("div");
+
+  nextRecipeInputWrappers.classList.add("recipe_input_wrapper");
+  nextRecipeInputWrappers.innerHTML = `
+    <input type="text" onfocus="addFocusClass(this)" onblur="removeFocusClass(this)"
+      placeholder="레시피의 ${
+        recipeInputWrappers.length + 1
+      }번 순서를 입력해 주세요" />
+    <div class="add_button" onclick="onClickAddButton();">+</div>`;
+
+  recipeInputWrappers.forEach((recipeInputWrapper) => {
+    const addButton = recipeInputWrapper.querySelector(".add_button");
+    if (addButton) {
+      recipeInputWrapper.removeChild(addButton);
+    }
+  });
+
+  recipeFormGroup.appendChild(nextRecipeInputWrappers);
+}
+
 function formatDate(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");

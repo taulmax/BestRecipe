@@ -130,8 +130,8 @@
   </footer>
 
   <!-- 로그인 안되어있으면 뜨는 다이얼로그 -->
-  <dialog id="isLogin_dialog">
-    <button class="close_button" onclick="document.getElementById('isLogin_dialog').close()">×</button>
+  <dialog id="isLogin_dialog" onclose="closeDialog();">
+    <button class="close_button" onclick="closeDialog();">×</button>
     <img class="isLogin_dialog_logo" src="/images/100_logo.png" alt="logo">
     <h1>로그인이 필요한 서비스입니다</h1>
     <h2>소셜 로그인을 통해 빠르게 저희 서비스를 이용해보세요!</h2>

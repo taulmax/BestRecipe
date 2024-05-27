@@ -46,9 +46,22 @@ function isLogin(link) {
     }
     return;
   } else {
-    const isLoginDialog = document.getElementById("isLogin_dialog");
-    isLoginDialog.showModal();
+    openDialog();
   }
+}
+
+// 로그인 필요 다이얼로그 열기
+function openDialog() {
+  const dialog = document.getElementById("isLogin_dialog");
+  dialog.showModal();
+  document.body.style.overflow = "hidden";
+}
+
+// 로그인 필요 다이얼로그 닫기
+function closeDialog() {
+  const dialog = document.getElementById("isLogin_dialog");
+  dialog.close();
+  document.body.style.overflow = "";
 }
 
 // 토스트 메시지 관리

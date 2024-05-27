@@ -106,7 +106,7 @@ main {
 
 /* 로그인 다이얼로그 */
 #isLogin_dialog {
-    position: relative;
+    position: fixed;
     width: 600px;
     padding: 20px 20px 40px 20px;
     border: 1px solid #ccc;

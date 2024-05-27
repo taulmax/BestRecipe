@@ -560,6 +560,32 @@ main {
     height: 200px;
 }
 
+#write_cyber .recipe_input_wrapper {
+    position: relative;
+}
+
+#write_cyber .recipe_input_wrapper .add_button {
+    position: absolute;
+    top: 50%;
+    right: -40px;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #15a775;
+    color: #15a775;
+    border-radius: 100%;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+#write_cyber .recipe_input_wrapper .add_button:hover {
+    background-color: #15a775;
+    color: #ffffff;
+}
+
 #write_cyber .file-input-wrapper {
     display: flex;
     align-items: center;

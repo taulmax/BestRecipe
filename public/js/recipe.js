@@ -104,12 +104,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-function addFocusClass(id) {
-  document.getElementById(id).classList.add("focused");
+function addFocusClass(element) {
+  element.classList.add("focused");
 }
 
-function removeFocusClass(id) {
-  document.getElementById(id).classList.remove("focused");
+function removeFocusClass(element) {
+  element.classList.remove("focused");
 }
 
 function attachImage() {

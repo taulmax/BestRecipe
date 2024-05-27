@@ -103,4 +103,16 @@ router.post("/", upload.single("image"), (req, res) => {
   res.status(201).json(newRecipe);
 });
 
+// 특정 레시피 가져오기 (상세 페이지)
+router.get("/:id", (req, res) => {
+  const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
+  const recipe = recipes.find((r) => r.id === parseInt(req.params.id));
+
+  if (recipe) {
+    res.json(recipe);
+  } else {
+    res.status(404).json({ error: "레시피를 찾을 수 없습니다." });
+  }
+});
+
 export default router;

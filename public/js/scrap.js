@@ -1,4 +1,4 @@
-if (location.pathname === "/scrap.html") {
+if (location.pathname === "/scrap") {
   document.addEventListener("DOMContentLoaded", async () => {
     try {
       const userId = localStorage.getItem("userId");

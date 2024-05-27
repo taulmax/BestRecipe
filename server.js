@@ -48,22 +48,26 @@ app.get("/api/keys", (req, res) => {
   res.json({ apiKey });
 });
 
+// API 설정
 app.use("/api/weather", weatherRouter);
 app.use("/api/youtube", youtubeRouter);
 app.use("/api/recipes", recipesRouter);
 app.use("/api/scrap", scrapRouter);
 
-// 로컬호스트로 들어가면 바로 뜨는화면 home.html으로 설정
+// 페이지 설정
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pages", "home.html"));
 });
-app.get("/cyberRecipe.html", (req, res) => {
+app.get("/cyberRecipe", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pages", "cyberRecipe.html"));
 });
-app.get("/writeRecipe.html", (req, res) => {
+app.get("/recipe/:id", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "pages", "recipeDetail.html"));
+});
+app.get("/writeRecipe", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pages", "writeRecipe.html"));
 });
-app.get("/scrap.html", (req, res) => {
+app.get("/scrap", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pages", "scrap.html"));
 });
 

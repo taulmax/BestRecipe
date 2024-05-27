@@ -56,7 +56,7 @@ if (location.pathname === "/") {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  if (location.pathname === "/cyberRecipe.html") {
+  if (location.pathname === "/cyberRecipe") {
     try {
       const userId = localStorage.getItem("userId");
       const response = await fetch(
@@ -110,7 +110,7 @@ function attachImage() {
   document.getElementById("image").click();
 }
 
-if (location.pathname === "/writeRecipe.html") {
+if (location.pathname === "/writeRecipe") {
   document.addEventListener("DOMContentLoaded", () => {
     document
       .querySelector("form")
@@ -137,7 +137,7 @@ if (location.pathname === "/writeRecipe.html") {
             const result = await response.json();
             console.log("New recipe added:", result);
             localStorage.setItem("postRecipe", 1);
-            location.href = "/cyberRecipe.html";
+            location.href = "/cyberRecipe";
           } else {
             console.error("Failed to add recipe");
           }

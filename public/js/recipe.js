@@ -126,7 +126,7 @@ function onClickAddButton() {
   nextRecipeInputWrappers.classList.add("recipe_input_wrapper");
   nextRecipeInputWrappers.innerHTML = `
     <input type="text" onfocus="addFocusClass(this)" onblur="removeFocusClass(this)"
-      placeholder="레시피의 ${
+      class="recipe_input" placeholder="레시피의 ${
         recipeInputWrappers.length + 1
       }번 순서를 입력해 주세요" />
     <div class="add_button" onclick="onClickAddButton();">+</div>`;
@@ -161,7 +161,13 @@ if (location.pathname === "/writeRecipe") {
         const formData = new FormData();
         formData.append("food", document.getElementById("food").value);
         formData.append("subTitle", document.getElementById("sub_title").value);
-        formData.append("recipe", document.getElementById("recipe").value);
+
+        const recipeInputs = document.querySelectorAll(".recipe_input");
+        const recipeInputsValueArray = Array.from(recipeInputs).map(
+          (input) => input.value
+        );
+
+        formData.append("recipe", recipeInputsValueArray);
         formData.append("image", document.getElementById("image").files[0]);
         formData.append(
           "ingredients",
@@ -203,7 +209,7 @@ function parseIngredients(ingredientsString) {
 }
 
 function parseRecipes(recipesString) {
-  const recipesArray = recipesString.split("\n");
+  const recipesArray = recipesString.split(",");
   const parsedRecipes = recipesArray.map((recipe) => recipe.trim());
   return parsedRecipes;
 }
@@ -290,9 +296,10 @@ if (location.pathname.startsWith("/recipe/")) {
       ingredientsList.appendChild(li);
     });
 
-    parseRecipes(data.recipe).forEach((recipe) => {
+    console.log(parseRecipes(data.recipe));
+    parseRecipes(data.recipe).forEach((recipe, index) => {
       const span = document.createElement("span");
-      span.textContent = recipe;
+      span.textContent = `${index + 1}. ${recipe}`;
       recipeDescription.appendChild(span);
     });
   });

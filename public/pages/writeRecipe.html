@@ -60,16 +60,14 @@
                 </div>
                 <div id="recipe_form-group" class="form-group">
                     <label>레시피</label>
-                    <!-- <textarea onfocus="addFocusClass(this)" onblur="removeFocusClass(this)" id="recipe"
-                        name="recipe" placeholder="레시피를 입력해 주세요"></textarea> -->
                     <div class="recipe_input_wrapper">
                         <input type="text" onfocus="addFocusClass(this)" onblur="removeFocusClass(this)"
-                            placeholder="레시피의 1번 순서를 입력해 주세요" />
+                            class="recipe_input" placeholder="레시피의 1번 순서를 입력해 주세요 / (예시) 물 500ml를 끓입니다." />
                         <div class="add_button" onclick="onClickAddButton();">+</div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="image">완성 이미지 (필수항목)</label>
+                    <label>완성 이미지 (필수항목)</label>
                     <div class="file-input-wrapper">
                         <input type="file" id="image" name="image" accept="image/*">
                     </div>

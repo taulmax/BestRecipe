@@ -66,7 +66,13 @@ function closeDialog() {
 
 // 토스트 메시지 관리
 document.addEventListener("DOMContentLoaded", () => {
-  const [LOGIN, LOGOUT, POST_RECIPE] = ["login", "logout", "postRecipe"];
+  const [LOGIN, LOGOUT, POST_RECIPE, UPDATE_RECIPE, DELETE_RECIPE] = [
+    "login",
+    "logout",
+    "postRecipe",
+    "updateRecipe",
+    "deleteRecipe",
+  ];
   if (localStorage.getItem(LOGIN)) {
     toast.success("성공적으로 로그인 되었습니다!");
     localStorage.removeItem(LOGIN);
@@ -79,11 +85,20 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.success("성공적으로 레시피를 생성했습니다!");
     localStorage.removeItem(POST_RECIPE);
   }
+  if (localStorage.getItem(UPDATE_RECIPE)) {
+    toast.success("성공적으로 레시피를 수정했습니다!");
+    localStorage.removeItem(UPDATE_RECIPE);
+  }
+  if (localStorage.getItem(DELETE_RECIPE)) {
+    toast.success("성공적으로 레시피를 삭제했습니다!");
+    localStorage.removeItem(DELETE_RECIPE);
+  }
 });
 
-// 컴포넌트 관리
-async function loadPartial(id, url) {
-  const response = await fetch(url);
-  const text = await response.text();
-  document.getElementById(id).innerHTML = text;
-}
+// 페이지 로드 시 이전 페이지 URL을 localStorage에 저장
+window.addEventListener("load", () => {
+  const currentURL = location.pathname;
+  const previousURL = localStorage.getItem("currentURL");
+  localStorage.setItem("currentURL", currentURL);
+  localStorage.setItem("previousURL", previousURL);
+});

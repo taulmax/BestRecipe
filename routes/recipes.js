@@ -118,4 +118,22 @@ router.get("/:id", (req, res) => {
   }
 });
 
+// 레시피 삭제 API
+router.delete("/:id", (req, res) => {
+  const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
+  const { id } = req.params;
+
+  const recipeIndex = recipes.findIndex((recipe) => recipe.id === parseInt(id));
+  if (recipeIndex === -1) {
+    return res.status(404).json({ error: "레시피를 찾을 수 없습니다." });
+  }
+
+  const deletedRecipe = recipes.splice(recipeIndex, 1)[0];
+
+  fs.writeFileSync(RECIPES_DATA, JSON.stringify(recipes, null, 2), "utf8");
+  res
+    .status(200)
+    .json({ message: "레시피가 삭제되었습니다.", recipe: deletedRecipe });
+});
+
 export default router;

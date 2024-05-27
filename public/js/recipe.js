@@ -139,7 +139,7 @@ if (location.pathname === "/writeRecipe") {
         formData.append("recipe", document.getElementById("recipe").value);
         formData.append("image", document.getElementById("image").files[0]);
         formData.append(
-          "ingredient",
+          "ingredients",
           document.getElementById("ingredient").value
         );
 
@@ -170,26 +170,16 @@ if (location.pathname === "/writeRecipe") {
 }
 
 function parseIngredients(ingredientsString) {
-  // 콤마로 구분된 문자열을 분리하여 배열로 만듭니다.
   const ingredientsArray = ingredientsString.split(",");
-
-  // 각 항목의 양 끝의 공백을 제거하고 새로운 배열을 만듭니다.
   const parsedIngredients = ingredientsArray.map((ingredient) =>
     ingredient.trim()
   );
-
-  // 최종적으로 조리 재료 목록을 반환합니다.
   return parsedIngredients;
 }
 
 function parseRecipes(recipesString) {
-  // 콤마로 구분된 문자열을 분리하여 배열로 만듭니다.
   const recipesArray = recipesString.split("\n");
-
-  // 각 항목의 양 끝의 공백을 제거하고 새로운 배열을 만듭니다.
   const parsedRecipes = recipesArray.map((recipe) => recipe.trim());
-
-  // 최종적으로 조리 재료 목록을 반환합니다.
   return parsedRecipes;
 }
 
@@ -200,6 +190,59 @@ if (location.pathname.startsWith("/recipe/")) {
     const response = await fetch(`/api/recipes/${recipeId}`);
     const data = await response.json();
     console.log(data);
+
+    // 작성자가 쓴 글이면 수정 삭제 HTML 추가
+    const userId = localStorage.getItem("userId");
+    if (parseInt(userId) === parseInt(data.userId)) {
+      const foodWrapper = document.querySelector(".food_wrapper");
+      const udButtonWrapper = document.createElement("div");
+      const updateButton = document.createElement("span");
+      const deleteButton = document.createElement("span");
+
+      udButtonWrapper.classList.add("ud_button_wrapper");
+      updateButton.classList.add("update");
+      deleteButton.classList.add("delete");
+
+      updateButton.textContent = "수정";
+      deleteButton.textContent = "삭제";
+
+      updateButton.onclick = () => {
+        location.href = "/updateRecipe";
+      };
+      deleteButton.onclick = () => {
+        const recipeId = data.id;
+
+        fetch(`/api/recipes/${recipeId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              localStorage.setItem("deleteRecipe", 1);
+
+              const previousURL = localStorage.getItem("previousURL");
+              if (previousURL) {
+                location.href = previousURL;
+              } else {
+                location.href = "/";
+              }
+            } else {
+              console.error("Failed to delete the recipe");
+              toast.failure("레시피 삭제에 실패했습니다 :(");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      };
+
+      udButtonWrapper.appendChild(updateButton);
+      udButtonWrapper.appendChild(deleteButton);
+
+      foodWrapper.appendChild(udButtonWrapper);
+    }
 
     const food = document.getElementById("food");
     const date = document.getElementById("date");

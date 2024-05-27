@@ -634,8 +634,28 @@ main {
     background-color: #0bab6d;
 }
 
-#recipe_detail .main_content_header h1 {
+#recipe_detail .main_content_header .food_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+#recipe_detail .main_content_header .food_wrapper h1 {
     font-size: 48px;
+}
+
+#recipe_detail .main_content_header .food_wrapper .ud_button_wrapper {
+    font-size: 14px;
+    color: #808080;
+}
+
+#recipe_detail .main_content_header .food_wrapper .ud_button_wrapper span {
+    margin-left: 4px;
+    cursor: pointer;
+}
+
+#recipe_detail .main_content_header .food_wrapper .ud_button_wrapper span:hover {
+    border-bottom: 2px solid #808080;
 }
 
 #recipe_detail .main_content_header .header_info {

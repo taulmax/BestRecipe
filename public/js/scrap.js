@@ -8,6 +8,9 @@ if (location.pathname === "/scrap") {
       data.forEach((item, index) => {
         const card = document.createElement("div");
         card.classList.add("recipe-card");
+        card.onclick = () => {
+          location.href = `/recipe/${item.id}`;
+        };
         card.innerHTML = `
           <div class="food_image_wrapper">
             <img src="${item.image}" alt="${item.food}">

@@ -9,6 +9,9 @@ if (location.pathname === "/") {
       const recipeCards = document.querySelectorAll("#recipes .recipe-card");
       data.forEach((item, index) => {
         const card = recipeCards[index];
+        card.onclick = () => {
+          location.href = `/recipe/${item.id}`;
+        };
         card.innerHTML = `
           <div class="food_image_wrapper">
             <img src="${item.image}" alt="${item.food}">
@@ -67,6 +70,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       data.forEach((item, index) => {
         const card = document.createElement("div");
         card.classList.add("recipe-card");
+        card.onclick = () => {
+          location.href = `/recipe/${item.id}`;
+        };
         card.innerHTML = `
           <div class="food_image_wrapper">
             <img src="${item.image}" alt="${item.food}">
@@ -110,6 +116,16 @@ function attachImage() {
   document.getElementById("image").click();
 }
 
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${year}.${month}.${day} ${hours}:${minutes}`;
+}
+
 if (location.pathname === "/writeRecipe") {
   document.addEventListener("DOMContentLoaded", () => {
     document
@@ -126,6 +142,10 @@ if (location.pathname === "/writeRecipe") {
           "ingredient",
           document.getElementById("ingredient").value
         );
+
+        formData.append("userId", localStorage.getItem("userId"));
+        formData.append("author", localStorage.getItem("nickname"));
+        formData.append("date", formatDate(new Date()));
 
         try {
           const response = await fetch("/api/recipes", {
@@ -146,5 +166,66 @@ if (location.pathname === "/writeRecipe") {
           toast.failure("레시피 생성에 실패했습니다 :(");
         }
       });
+  });
+}
+
+function parseIngredients(ingredientsString) {
+  // 콤마로 구분된 문자열을 분리하여 배열로 만듭니다.
+  const ingredientsArray = ingredientsString.split(",");
+
+  // 각 항목의 양 끝의 공백을 제거하고 새로운 배열을 만듭니다.
+  const parsedIngredients = ingredientsArray.map((ingredient) =>
+    ingredient.trim()
+  );
+
+  // 최종적으로 조리 재료 목록을 반환합니다.
+  return parsedIngredients;
+}
+
+function parseRecipes(recipesString) {
+  // 콤마로 구분된 문자열을 분리하여 배열로 만듭니다.
+  const recipesArray = recipesString.split("\n");
+
+  // 각 항목의 양 끝의 공백을 제거하고 새로운 배열을 만듭니다.
+  const parsedRecipes = recipesArray.map((recipe) => recipe.trim());
+
+  // 최종적으로 조리 재료 목록을 반환합니다.
+  return parsedRecipes;
+}
+
+// 레시피 상세페이지
+if (location.pathname.startsWith("/recipe/")) {
+  document.addEventListener("DOMContentLoaded", async () => {
+    const recipeId = location.pathname.split("/")[2];
+    const response = await fetch(`/api/recipes/${recipeId}`);
+    const data = await response.json();
+    console.log(data);
+
+    const food = document.getElementById("food");
+    const date = document.getElementById("date");
+    const author = document.getElementById("author");
+    const subTitle = document.getElementById("sub_title");
+    const recipeImg = document.getElementById("recipe_img");
+    const ingredientsList = document.getElementById("ingredients_list");
+    const recipeDescription = document.getElementById("recipe_description");
+
+    food.textContent = data.food;
+    date.textContent = data.date;
+    author.textContent = `작성자: ${data.author}`;
+    subTitle.textContent = data.subTitle;
+    recipeImg.src = `/${data.image}`;
+    recipeImg.alt = data.food;
+
+    parseIngredients(data.ingredients).forEach((ingredient) => {
+      const li = document.createElement("li");
+      li.textContent = ingredient;
+      ingredientsList.appendChild(li);
+    });
+
+    parseRecipes(data.recipe).forEach((recipe) => {
+      const span = document.createElement("span");
+      span.textContent = recipe;
+      recipeDescription.appendChild(span);
+    });
   });
 }

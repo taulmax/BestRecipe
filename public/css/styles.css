@@ -671,7 +671,13 @@ main {
     line-height: 26px;
 }
 
-#recipe_detail .main_content img {
+#recipe_detail .main_content .recipe_img_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#recipe_detail .main_content .recipe_img_wrapper img {
     width: 720px;
     height: 720px;
     object-fit: cover;

@@ -28,13 +28,19 @@ if (location.pathname === "/scrap") {
         recipes.appendChild(card);
       });
 
+      if (data.length === 0) {
+        document.getElementById("no_result").style.display = "flex";
+      }
+
       // dummy data 만들어서 grid 채워넣는 로직
       const dummyLength = 3 - (data.length % 3);
-      for (let i = 0; i < dummyLength; i++) {
-        const card = document.createElement("div");
-        card.classList.add("recipe-card");
-        card.classList.add("dummy");
-        recipes.appendChild(card);
+      if (dummyLength < 3) {
+        for (let i = 0; i < dummyLength; i++) {
+          const card = document.createElement("div");
+          card.classList.add("recipe-card");
+          card.classList.add("dummy");
+          recipes.appendChild(card);
+        }
       }
     } catch (error) {
       console.error("Error fetching config:", error);

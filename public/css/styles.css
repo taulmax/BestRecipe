@@ -556,6 +556,16 @@ main {
     border-color: #15a775;
 }
 
+#write_cyber input[type="text"].error,
+#write_cyber textarea.error {
+    border-color: #ff3939;
+}
+
+#write_cyber input[type="text"].error::placeholder,
+#write_cyber textarea.error::placeholder {
+    color: #ff7272;
+}
+
 #write_cyber textarea {
     height: 200px;
 }

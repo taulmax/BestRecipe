@@ -106,10 +106,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function addFocusClass(element) {
   element.classList.add("focused");
+  element.classList.remove("error");
 }
 
 function removeFocusClass(element) {
   element.classList.remove("focused");
+  element.classList.remove("error");
 }
 
 function attachImage() {
@@ -186,13 +188,16 @@ if (location.pathname === "/writeRecipe") {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append("food", document.getElementById("food").value);
-        formData.append("subTitle", document.getElementById("sub_title").value);
+
+        const food = document.getElementById("food");
+        const subTitle = document.getElementById("sub_title");
 
         const recipeInputs = document.querySelectorAll(".recipe_input");
         const recipeInputsValueArray = Array.from(recipeInputs).map(
           (input) => input.value
         );
+
+        const image = document.getElementById("image").files[0];
 
         const ingredientsInputs =
           document.querySelectorAll(".ingredients_input");
@@ -200,8 +205,43 @@ if (location.pathname === "/writeRecipe") {
           (input) => input.value
         );
 
+        if (!food.value) {
+          toast.failure("요리 이름을 작성해주세요!");
+          food.classList.add("error");
+          return;
+        }
+
+        if (!subTitle.value) {
+          toast.failure("부제를 작성해주세요!");
+          subTitle.classList.add("error");
+          return;
+        }
+
+        if (!recipeInputsValueArray[0]) {
+          toast.failure("레시피를 작성해주세요!");
+          recipeInputs.forEach((recipeInput) =>
+            recipeInput.classList.add("error")
+          );
+          return;
+        }
+
+        if (!image) {
+          toast.failure("이미지를 첨부해주세요!");
+          return;
+        }
+
+        if (!ingredientsInputsValueArray[0]) {
+          toast.failure("재료를 추가해주세요!");
+          ingredientsInputs.forEach((ingredientsInput) =>
+            ingredientsInput.classList.add("error")
+          );
+          return;
+        }
+
+        formData.append("food", food.value);
+        formData.append("subTitle", subTitle.value);
         formData.append("recipe", recipeInputsValueArray);
-        formData.append("image", document.getElementById("image").files[0]);
+        formData.append("image", image);
         formData.append("ingredients", ingredientsInputsValueArray);
 
         formData.append("userId", localStorage.getItem("userId"));

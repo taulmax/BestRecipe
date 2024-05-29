@@ -247,13 +247,15 @@ function parseRecipes(recipesString) {
 // 레시피 상세페이지
 if (location.pathname.startsWith("/recipe/")) {
   document.addEventListener("DOMContentLoaded", async () => {
+    const userId = localStorage.getItem("userId");
     const recipeId = location.pathname.split("/")[2];
-    const response = await fetch(`/api/recipes/${recipeId}`);
+    const response = await fetch(
+      `/api/recipes/${recipeId}?${userId ? `userId=${userId}` : ""}`
+    );
     const data = await response.json();
     console.log(data);
 
     // 작성자가 쓴 글이면 수정 삭제 HTML 추가
-    const userId = localStorage.getItem("userId");
     if (parseInt(userId) === parseInt(data.userId)) {
       const foodWrapper = document.querySelector(".food_wrapper");
       const udButtonWrapper = document.createElement("div");
@@ -303,6 +305,15 @@ if (location.pathname.startsWith("/recipe/")) {
       udButtonWrapper.appendChild(deleteButton);
 
       foodWrapper.appendChild(udButtonWrapper);
+    }
+
+    // 플로팅 스크랩
+    const floatingScrap = document.getElementById("floating_scrap");
+    floatingScrap.dataset.id = data.id;
+    floatingScrap.onclick = () => onClickScrap(floatingScrap, true);
+    if (data.isScrapped) {
+      floatingScrap.classList.add("scrapped");
+      floatingScrap.onclick = () => onClickDeleteScrap(floatingScrap, true);
     }
 
     const food = document.getElementById("food");

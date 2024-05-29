@@ -42,7 +42,8 @@ if (location.pathname === "/scrap") {
   });
 }
 
-async function onClickScrap(iconElement) {
+async function onClickScrap(iconElement, float = false) {
+  event.stopPropagation(); // 이벤트 버블링 방지
   const userId = parseInt(localStorage.getItem("userId"));
   const recipeId = parseInt(iconElement.dataset.id);
 
@@ -63,13 +64,18 @@ async function onClickScrap(iconElement) {
     if (response.ok) {
       const result = await response.json();
       console.log("스크랩 추가 성공:", result);
+      toast.success("성공적으로 스크랩하였습니다!");
 
       // 아이콘을 채워진 북마크로 변경
-      iconElement.classList.remove("far");
-      iconElement.classList.add("fas");
-
       // 클릭 이벤트 변경
-      iconElement.onclick = () => onClickDeleteScrap(iconElement);
+      if (float) {
+        iconElement.classList.add("scrapped");
+        iconElement.onclick = () => onClickDeleteScrap(iconElement, true);
+      } else {
+        iconElement.classList.remove("far");
+        iconElement.classList.add("fas");
+        iconElement.onclick = () => onClickDeleteScrap(iconElement);
+      }
     } else {
       const error = await response.json();
       console.error("스크랩 추가 실패:", error);
@@ -79,7 +85,8 @@ async function onClickScrap(iconElement) {
   }
 }
 
-async function onClickDeleteScrap(iconElement) {
+async function onClickDeleteScrap(iconElement, float = false) {
+  event.stopPropagation(); // 이벤트 버블링 방지
   const userId = parseInt(localStorage.getItem("userId"));
   const recipeId = parseInt(iconElement.dataset.id);
 
@@ -100,13 +107,18 @@ async function onClickDeleteScrap(iconElement) {
     if (response.ok) {
       const result = await response.json();
       console.log("스크랩 삭제 성공:", result);
+      toast.success("성공적으로 스크랩이 해제되었습니다!");
 
       // 아이콘을 빈 북마크로 변경
-      iconElement.classList.remove("fas");
-      iconElement.classList.add("far");
-
       // 클릭 이벤트 변경
-      iconElement.onclick = () => onClickScrap(iconElement);
+      if (float) {
+        iconElement.classList.remove("scrapped");
+        iconElement.onclick = () => onClickScrap(iconElement, true);
+      } else {
+        iconElement.classList.remove("fas");
+        iconElement.classList.add("far");
+        iconElement.onclick = () => onClickScrap(iconElement);
+      }
     } else {
       const error = await response.json();
       console.error("스크랩 삭제 실패:", error);

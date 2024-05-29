@@ -109,8 +109,20 @@ router.post("/", upload.single("image"), (req, res) => {
 
 // 특정 레시피 가져오기 (상세 페이지)
 router.get("/:id", (req, res) => {
+  const { userId } = req.query;
   const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
   const recipe = recipes.find((r) => r.id === parseInt(req.params.id));
+
+  if (userId) {
+    const scrapData = JSON.parse(fs.readFileSync(SCRAP_DATA, "utf8"));
+    const isScrapped = scrapData.find(
+      (data) =>
+        data.userId === parseInt(userId) &&
+        data.recipeId === parseInt(recipe.id)
+    );
+
+    recipe.isScrapped = isScrapped ? true : false;
+  }
 
   if (recipe) {
     res.json(recipe);

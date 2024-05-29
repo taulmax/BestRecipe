@@ -454,13 +454,13 @@ main {
     margin-bottom: 0 !important;
 }
 
-.youtube_search_wrapper {
+.search_wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.youtube_search_wrapper input {
+.search_wrapper input {
     height: 48px;
     font-size: 16px;
     width: 360px;
@@ -469,7 +469,7 @@ main {
     padding-left: 12px;
 }
 
-.youtube_search_wrapper button {
+.search_wrapper button {
     font-size: 16px;
     width: 72px;
     height: 48px;
@@ -912,4 +912,22 @@ main {
 #update_thumbnail_wrapper img:hover~span,
 #update_thumbnail_wrapper span:hover {
     display: flex;
+}
+
+#no_result {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+}
+
+#no_result img {
+    width: 300px;
+}
+
+#no_result span {
+    margin-top: 36px;
+    font-size: 24px;
 }

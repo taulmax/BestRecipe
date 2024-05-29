@@ -112,7 +112,7 @@ async function onClickSearchYoutube() {
   location.href = `/youtubeRecipe?q=${keyword}`;
 }
 
-function onKeyDownEnter(event) {
+function onKeyDownEnterYoutube(event) {
   if (event.key === "Enter") {
     event.preventDefault();
     onClickSearchYoutube();

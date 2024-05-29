@@ -47,9 +47,19 @@
     <div class="main_content">
         <header class="main_content_header" style="margin-top:28px;">
             <h1>사이-바 레시피</h1>
+            <div class="search_wrapper">
+                <input onkeydown="onKeyDownEnterRecipe(event)" id="search_recipe_input" type="text"
+                    placeholder="오늘은 무슨 사이-바 레시피를 검색해볼까?">
+                <button onclick="onClickSearchRecipe();" id="search_recipe_button">검색</button>
+            </div>
             <div onclick="isLogin('/writeRecipe')" class="more">레시피 작성하기</div>
         </header>
-        <div id="recipes" class="main_content_box cyber_main_content_box"></div>
+        <div id="recipes" class="main_content_box cyber_main_content_box">
+            <div id="no_result">
+                <img src="/images/img_search.png" alt="no_result">
+                <span>검색 결과가 없습니다!</span>
+            </div>
+        </div>
     </div>
 
     <footer class="footer">

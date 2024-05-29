@@ -62,8 +62,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (location.pathname === "/cyberRecipe") {
     try {
       const userId = localStorage.getItem("userId");
+      const param = new URLSearchParams(location.search).get("q");
+
+      const searchRecipeInput = document.getElementById("search_recipe_input");
+      if (param) {
+        searchRecipeInput.value = param;
+      }
+
       const response = await fetch(
-        `/api/recipes?${userId ? `userId=${userId}` : ""}`
+        `/api/recipes?${userId ? `userId=${userId}` : ""}${
+          param ? `&q=${param}` : ""
+        }`
       );
       const data = await response.json();
       const recipes = document.getElementById("recipes");
@@ -90,6 +99,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         recipes.appendChild(card);
       });
 
+      if (data.length === 0) {
+        document.getElementById("no_result").style.display = "flex";
+      }
+
       // dummy data 만들어서 grid 채워넣는 로직
       const dummyLength = 3 - (data.length % 3);
       if (dummyLength < 3) {
@@ -105,6 +118,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 });
+
+async function onClickSearchRecipe() {
+  const keyword = document.getElementById("search_recipe_input").value;
+  location.href = `/cyberRecipe?q=${keyword}`;
+}
+
+function onKeyDownEnterRecipe(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    onClickSearchRecipe();
+  }
+}
 
 function addFocusClass(element) {
   element.classList.add("focused");

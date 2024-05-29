@@ -63,11 +63,25 @@ router.get("/main", (req, res) => {
 // 레시피 조회 API (전체 레시피)
 router.get("/", (req, res) => {
   const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
-  const { userId } = req.query;
+  const { userId, q } = req.query;
+
+  let resultRecipes;
+  if (q) {
+    const query = q.toLowerCase();
+    resultRecipes = recipes.filter(
+      (recipe) =>
+        recipe.food.toLowerCase().includes(query) ||
+        recipe.author.toLowerCase().includes(query) ||
+        recipe.ingredients.toLowerCase().includes(query)
+    );
+  } else {
+    resultRecipes = recipes;
+  }
+
   if (userId) {
     const scrapData = JSON.parse(fs.readFileSync(SCRAP_DATA, "utf8"));
     const scrapRecipeIds = getRecipeIdsByUserId(userId, scrapData);
-    const recipesWithScrap = recipes.map((recipe) => {
+    const recipesWithScrap = resultRecipes.map((recipe) => {
       if (scrapRecipeIds.includes(recipe.id)) {
         recipe.isScrapped = true;
       } else {
@@ -77,7 +91,7 @@ router.get("/", (req, res) => {
     });
     res.json(recipesWithScrap);
   } else {
-    res.json(recipes);
+    res.json(resultRecipes);
   }
 });
 

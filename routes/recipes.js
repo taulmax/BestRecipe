@@ -83,7 +83,8 @@ router.get("/", (req, res) => {
 
 // 레시피 추가 API
 router.post("/", upload.single("image"), (req, res) => {
-  const { food, subTitle, recipe, ingredient, userId, author, date } = req.body;
+  const { food, subTitle, recipe, ingredients, userId, author, date } =
+    req.body;
   const image = req.file ? "/images/" + req.file.filename : null;
 
   const recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
@@ -97,7 +98,7 @@ router.post("/", upload.single("image"), (req, res) => {
     subTitle,
     recipe,
     image,
-    ingredient,
+    ingredients,
   };
 
   recipes.push(newRecipe);

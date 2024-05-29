@@ -560,15 +560,31 @@ main {
     height: 200px;
 }
 
-#write_cyber .recipe_input_wrapper {
+#write_cyber .recipe_input_wrapper,
+#write_cyber .ingredients_input_wrapper {
     position: relative;
+}
+
+#write_cyber .ingredients_input_flex_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#write_cyber .ingredients_input_wrapper {
+    width: 220px;
 }
 
 #write_cyber .recipe_input_wrapper:not(:last-child) {
     margin-bottom: 12px;
 }
 
-#write_cyber .recipe_input_wrapper .add_button {
+#write_cyber .ingredients_input_wrapper {
+    margin-right: 12px;
+    margin-bottom: 12px
+}
+
+#write_cyber .recipe_input_wrapper .add_button,
+#write_cyber .ingredients_input_wrapper .add_button {
     position: absolute;
     top: 50%;
     right: -40px;
@@ -585,7 +601,8 @@ main {
     cursor: pointer;
 }
 
-#write_cyber .recipe_input_wrapper .add_button:hover {
+#write_cyber .recipe_input_wrapper .add_button:hover,
+#write_cyber .ingredients_input_wrapper .add_button:hover {
     background-color: #15a775;
     color: #ffffff;
 }

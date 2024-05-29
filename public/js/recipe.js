@@ -116,7 +116,7 @@ function attachImage() {
   document.getElementById("image").click();
 }
 
-function onClickAddButton() {
+function onClickAddRecipeButton() {
   const recipeFormGroup = document.getElementById("recipe_form-group");
   const recipeInputWrappers = document.querySelectorAll(
     ".recipe_input_wrapper"
@@ -129,7 +129,7 @@ function onClickAddButton() {
       class="recipe_input" placeholder="레시피의 ${
         recipeInputWrappers.length + 1
       }번 순서를 입력해 주세요" />
-    <div class="add_button" onclick="onClickAddButton();">+</div>`;
+    <div class="add_button" onclick="onClickAddRecipeButton();">+</div>`;
 
   recipeInputWrappers.forEach((recipeInputWrapper) => {
     const addButton = recipeInputWrapper.querySelector(".add_button");
@@ -139,6 +139,33 @@ function onClickAddButton() {
   });
 
   recipeFormGroup.appendChild(nextRecipeInputWrappers);
+}
+
+function onClickAddIngredientsButton() {
+  const ingredientsFormGroup = document.getElementById(
+    "ingredients_form-group"
+  );
+  const ingredientsInputWrappers = document.querySelectorAll(
+    ".ingredients_input_wrapper"
+  );
+  const nextIngredientsInputWrappers = document.createElement("div");
+
+  nextIngredientsInputWrappers.classList.add("ingredients_input_wrapper");
+  nextIngredientsInputWrappers.innerHTML = `
+    <input type="text" onfocus="addFocusClass(this)" onblur="removeFocusClass(this)"
+      class="ingredients_input" placeholder="${
+        ingredientsInputWrappers.length + 1
+      }번 재료를 입력해 주세요" />
+    <div class="add_button" onclick="onClickAddIngredientsButton();">+</div>`;
+
+  ingredientsInputWrappers.forEach((recipeInputWrapper) => {
+    const addButton = recipeInputWrapper.querySelector(".add_button");
+    if (addButton) {
+      recipeInputWrapper.removeChild(addButton);
+    }
+  });
+
+  ingredientsFormGroup.appendChild(nextIngredientsInputWrappers);
 }
 
 function formatDate(date) {
@@ -167,12 +194,15 @@ if (location.pathname === "/writeRecipe") {
           (input) => input.value
         );
 
+        const ingredientsInputs =
+          document.querySelectorAll(".ingredients_input");
+        const ingredientsInputsValueArray = Array.from(ingredientsInputs).map(
+          (input) => input.value
+        );
+
         formData.append("recipe", recipeInputsValueArray);
         formData.append("image", document.getElementById("image").files[0]);
-        formData.append(
-          "ingredients",
-          document.getElementById("ingredient").value
-        );
+        formData.append("ingredients", ingredientsInputsValueArray);
 
         formData.append("userId", localStorage.getItem("userId"));
         formData.append("author", localStorage.getItem("nickname"));
@@ -296,7 +326,6 @@ if (location.pathname.startsWith("/recipe/")) {
       ingredientsList.appendChild(li);
     });
 
-    console.log(parseRecipes(data.recipe));
     parseRecipes(data.recipe).forEach((recipe, index) => {
       const span = document.createElement("span");
       span.textContent = `${index + 1}. ${recipe}`;

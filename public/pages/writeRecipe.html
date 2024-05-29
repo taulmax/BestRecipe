@@ -63,19 +63,24 @@
                     <div class="recipe_input_wrapper">
                         <input type="text" onfocus="addFocusClass(this)" onblur="removeFocusClass(this)"
                             class="recipe_input" placeholder="레시피의 1번 순서를 입력해 주세요 / (예시) 물 500ml를 끓입니다." />
-                        <div class="add_button" onclick="onClickAddButton();">+</div>
+                        <div class="add_button" onclick="onClickAddRecipeButton();">+</div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>완성 이미지 (필수항목)</label>
+                    <label>완성 이미지</label>
                     <div class="file-input-wrapper">
                         <input type="file" id="image" name="image" accept="image/*">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="ingredient">재료 (필수입력, 재료는 콤마(",")로 구분해주세요!)</label>
-                    <input onfocus="addFocusClass(this)" onblur="removeFocusClass(this)" type="text" id="ingredient"
-                        name="ingredient" placeholder="핵심키워드를 입력해 주세요">
+                    <label>재료</label>
+                    <div id="ingredients_form-group" class="ingredients_input_flex_wrapper">
+                        <div class="ingredients_input_wrapper">
+                            <input onfocus="addFocusClass(this)" onblur="removeFocusClass(this)" type="text"
+                                class="ingredients_input" placeholder="1번 재료를 입력해 주세요">
+                            <div class="add_button" onclick="onClickAddIngredientsButton();">+</div>
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" class="submit-btn">작성 완료</button>
             </form>

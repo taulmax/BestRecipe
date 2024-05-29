@@ -199,6 +199,14 @@ async function recipeCU(type) {
     (input) => input.value
   );
 
+  // 빈 값 삭제
+  const recipe = recipeInputsValueArray.filter(
+    (recipeInputsValue) => !!recipeInputsValue
+  );
+  const ingredients = ingredientsInputsValueArray.filter(
+    (ingredientsInputsValue) => !!ingredientsInputsValue
+  );
+
   if (!food.value) {
     toast.failure("요리 이름을 작성해주세요!");
     food.classList.add("error");
@@ -235,11 +243,11 @@ async function recipeCU(type) {
 
   formData.append("food", food.value);
   formData.append("subTitle", subTitle.value);
-  formData.append("recipe", recipeInputsValueArray);
+  formData.append("recipe", recipe);
   if (type === "POST" || !document.getElementById("update_thumbnail_wrapper")) {
     formData.append("image", image);
   }
-  formData.append("ingredients", ingredientsInputsValueArray);
+  formData.append("ingredients", ingredients);
 
   formData.append("userId", localStorage.getItem("userId"));
   formData.append("author", localStorage.getItem("nickname"));

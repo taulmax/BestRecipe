@@ -58,7 +58,10 @@ if (location.pathname === "/") {
 if (location.pathname === "/youtubeRecipe") {
   document.addEventListener("DOMContentLoaded", async () => {
     try {
-      const response = await fetch(`/api/youtube/keyword?q=`);
+      const param = new URLSearchParams(location.search).get("q");
+      const response = await fetch(
+        `/api/youtube/keyword?q=${param ? param : ""}`
+      );
       const data = await response.json();
       const youtubeRecipes = document.getElementById("youtube_recipes");
 
@@ -94,4 +97,16 @@ if (location.pathname === "/youtubeRecipe") {
       console.error("Error fetching data:", error);
     }
   });
+}
+
+async function onClickSearchYoutube() {
+  const keyword = document.getElementById("search_youtube_input").value;
+  location.href = `/youtubeRecipe?q=${keyword}`;
+}
+
+function onKeyDownEnter(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    onClickSearchYoutube();
+  }
 }

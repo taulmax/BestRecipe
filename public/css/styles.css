@@ -454,6 +454,33 @@ main {
     margin-bottom: 0 !important;
 }
 
+.youtube_search_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.youtube_search_wrapper input {
+    height: 48px;
+    font-size: 16px;
+    width: 360px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    padding-left: 12px;
+}
+
+.youtube_search_wrapper button {
+    font-size: 16px;
+    width: 72px;
+    height: 48px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 4px;
+    background-color: #1f8d67;
+    color: white;
+
+}
+
 /* Footer */
 .footer {
     background-color: #f2f2f2;

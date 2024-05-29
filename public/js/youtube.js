@@ -59,6 +59,14 @@ if (location.pathname === "/youtubeRecipe") {
   document.addEventListener("DOMContentLoaded", async () => {
     try {
       const param = new URLSearchParams(location.search).get("q");
+
+      const searchYoutubeInput = document.getElementById(
+        "search_youtube_input"
+      );
+      if (param) {
+        searchYoutubeInput.value = param;
+      }
+
       const response = await fetch(
         `/api/youtube/keyword?q=${param ? param : ""}`
       );

@@ -446,6 +446,14 @@ main {
     right: -28px;
 }
 
+.youtube_page .recipe-card {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 360px;
+    margin-bottom: 0 !important;
+}
+
 /* Footer */
 .footer {
     background-color: #f2f2f2;

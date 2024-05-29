@@ -13,8 +13,7 @@
     <script src="https://kit.fontawesome.com/eb63f3c384.js" crossorigin="anonymous"></script>
     <script src="/js/index.js"></script>
     <script src="/js/kakao.js"></script>
-    <script src="/js/recipe.js"></script>
-    <script src="/js/scrap.js"></script>
+    <script src="/js/youtube.js"></script>
 </head>
 
 <body>
@@ -43,36 +42,13 @@
         </div>
     </header>
 
-    <!-- 상-세 레시피 -->
-    <div id="recipe_detail" class="main_content">
-        <header class="main_content_header">
-            <span class="label">사이-바 레시피</span>
-            <div class="food_wrapper">
-                <h1 id="food"></h1>
-            </div>
-            <div class="header_info">
-                <span id="date" class="date"></span>
-                <span id="author" class="author"></span>
-            </div>
-            <div id="floating_scrap" class="floating_scrap">
-                <i class="far fa-bookmark"></i>
-                <span>스크랩</span>
-            </div>
+    <!-- 사이-바 레시피 -->
+    <div class="main_content">
+        <header class="main_content_header" style="margin-top:28px;">
+            <h1>유튜-바 레시피</h1>
+            <div onclick="isLogin('/writeRecipe')" class="more">레시피 작성하기</div>
         </header>
-        <main class="main_content">
-            <div id="sub_title" class="sub_title"></div>
-            <div class="description">
-                <span>언제 먹어도 맛있는 레시피들</span>
-                <span>사이-바 백종원과 함께 비법을 알아봐요!</span>
-            </div>
-            <div class="recipe_img_wrapper">
-                <img id="recipe_img">
-            </div>
-            <div class="ingredients_title">재료는 이런 것들이 필요해요!</div>
-            <ul id="ingredients_list" class="ingredients_list"></ul>
-            <div class="recipe_title">이대로만 요리하면 당신은 백종원!</div>
-            <span id="recipe_description" class="recipe_description"></span>
-        </main>
+        <div id="youtube_recipes" class="main_content_box cyber_main_content_box youtube_page"></div>
     </div>
 
     <footer class="footer">

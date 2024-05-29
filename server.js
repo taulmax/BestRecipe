@@ -70,6 +70,9 @@ app.get("/writeRecipe", (req, res) => {
 app.get("/updateRecipe/:id", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pages", "writeRecipe.html"));
 });
+app.get("/youtubeRecipe", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "pages", "youtubeRecipe.html"));
+});
 app.get("/scrap", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pages", "scrap.html"));
 });

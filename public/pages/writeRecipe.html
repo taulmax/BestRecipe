@@ -67,10 +67,14 @@
                         <div class="add_button" onclick="onClickAddRecipeButton();">+</div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div id="image_form-group" class="form-group">
                     <label>완성 이미지</label>
                     <div class="file-input-wrapper">
                         <input type="file" id="image" name="image" accept="image/*">
+                    </div>
+                    <div id="update_thumbnail_wrapper">
+                        <img id="update_thumbnail" />
+                        <span id="delete_image_button">x</span>
                     </div>
                 </div>
                 <div class="form-group">

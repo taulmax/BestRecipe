@@ -847,3 +847,34 @@ main {
 #recipe_detail .main_content .recipe_description span {
     margin-top: 16px;
 }
+
+/* 수정 */
+#update_thumbnail_wrapper {
+    display: none;
+    position: relative;
+}
+
+#update_thumbnail_wrapper img {
+    max-width: 200px;
+}
+
+#update_thumbnail_wrapper span {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ff3939;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+#update_thumbnail_wrapper img:hover~span,
+#update_thumbnail_wrapper span:hover {
+    display: flex;
+}

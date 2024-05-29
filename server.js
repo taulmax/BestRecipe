@@ -67,6 +67,9 @@ app.get("/recipe/:id", (req, res) => {
 app.get("/writeRecipe", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pages", "writeRecipe.html"));
 });
+app.get("/updateRecipe/:id", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "pages", "writeRecipe.html"));
+});
 app.get("/scrap", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pages", "scrap.html"));
 });

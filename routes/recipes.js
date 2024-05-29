@@ -107,6 +107,40 @@ router.post("/", upload.single("image"), (req, res) => {
   res.status(201).json(newRecipe);
 });
 
+// 레시피 수정 API
+router.put("/:id", upload.single("image"), (req, res) => {
+  const recipeId = parseInt(req.params.id); // 수정할 레시피의 ID
+  const { food, subTitle, recipe, ingredients, userId, author, date } =
+    req.body;
+
+  const image = req.file ? "/images/" + req.file.filename : null;
+
+  let recipes = JSON.parse(fs.readFileSync(RECIPES_DATA, "utf8"));
+
+  // 수정할 레시피를 찾습니다.
+  const index = recipes.findIndex((recipe) => recipe.id === recipeId);
+
+  if (index !== -1) {
+    // 레시피를 찾았을 때
+    recipes[index] = {
+      ...recipes[index], // 기존 레시피를 유지하면서
+      food,
+      subTitle,
+      recipe,
+      ingredients,
+      userId,
+      author,
+      date,
+      image: image || recipes[index].image, // 새로운 데이터로 업데이트합니다.
+    };
+
+    fs.writeFileSync(RECIPES_DATA, JSON.stringify(recipes, null, 2), "utf8");
+    res.status(200).json(recipes[index]); // 업데이트된 레시피를 반환합니다.
+  } else {
+    res.status(404).json({ message: "레시피를 찾을 수 없습니다." });
+  }
+});
+
 // 특정 레시피 가져오기 (상세 페이지)
 router.get("/:id", (req, res) => {
   const { userId } = req.query;

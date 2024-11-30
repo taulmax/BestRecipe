@@ -130,5 +130,16 @@
     "recipe": "오리오리오리오리,오리오리,오리오리?,곽곽113,곽곽112,곽곽115",
     "image": "/images/image-1716845113056.png",
     "ingredients": "오리,오리,오리,그리고 오리"
+  },
+  {
+    "id": 13,
+    "food": "Bortsh",
+    "userId": "3508166226",
+    "author": "리자",
+    "date": "2024.06.01 21:29",
+    "subTitle": "THE Russian soup!",
+    "recipe": "Ask my Mom!",
+    "image": "/images/image-1717244957709.jpeg",
+    "ingredients": "비트"
   }
 ]

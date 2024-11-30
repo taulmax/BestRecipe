@@ -1,14 +1,14 @@
 [
   {
     "userId": 3493737298,
-    "recipeId": 1
-  },
-  {
-    "userId": 3493737298,
     "recipeId": 4
   },
   {
     "userId": 3493737298,
     "recipeId": 3
+  },
+  {
+    "userId": 3493737298,
+    "recipeId": 1
   }
 ]
